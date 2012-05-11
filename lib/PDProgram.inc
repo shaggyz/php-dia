@@ -1,6 +1,7 @@
 <?php
 
 require_once "PDConsole.inc";
+require_once "PDPHPParser.inc";
 
 class PDProgram{
 	
@@ -34,7 +35,13 @@ class PDProgram{
 				$this->quit(false);
 			}
 			
+			// extract the files .php and .inc recursively
 			$this->phpFilesARR = $this->scanFiles();
+			
+			// parse the php code
+			$this->parsePHPCode();
+			
+			
 			
 		} catch (Exception $e){
 			
@@ -66,7 +73,7 @@ class PDProgram{
 	 */
 	protected function scanFiles(){
 		
-		PDConsole::printInfo("Scanning files...");
+		PDConsole::startProcess("Scanning files...");
 		
 		if ('/' == $this->targetPath[(strlen($this->targetPath) -1)]){
 			$this->targetPath = substr_replace($this->targetPath ,"",-1);
@@ -102,11 +109,30 @@ class PDProgram{
 			}
 		}
 		
+		PDConsole::endProcess(count($path) . " files indexed", count($path));
 		
 		return $path;
 		
 		
 	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 */
+	public function parsePHPCode(){
+		
+		foreach ($this->phpFilesARR as $phpFile){
+			
+			$parser = new PDPHPParser(file($phpFile));
+			print_r($parser->getScructure());
+			
+			break;
+			
+		}
+		
+	}
+	
 	
 	
 	
