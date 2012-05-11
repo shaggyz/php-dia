@@ -2,6 +2,7 @@
 
 require_once "PDConsole.inc";
 require_once "PDPHPParser.inc";
+require_once "PDDiaFile.inc";
 
 class PDProgram{
 	
@@ -16,6 +17,13 @@ class PDProgram{
 	 * @var array
 	 */
 	protected $phpFilesARR = array();
+
+	/**
+	 * 
+	 * Enter description here ...
+	 * @var array
+	 */
+	protected $entitiesARR;
 	
 	
 	/**
@@ -41,6 +49,8 @@ class PDProgram{
 			// parse the php code
 			$this->parsePHPCode();
 			
+			// gen the dia file
+			$this->generateDiaFile();
 			
 			
 		} catch (Exception $e){
@@ -120,18 +130,35 @@ class PDProgram{
 	 * 
 	 * Enter description here ...
 	 */
-	public function parsePHPCode(){
+	protected function parsePHPCode(){
+		
+		PDConsole::startProcess("Loading PHP code...");
 		
 		foreach ($this->phpFilesARR as $phpFile){
 			
 			$parser = new PDPHPParser(file($phpFile));
-			print_r($parser->getScructure());
-			
-			break;
+			$this->entitiesARR[] = $parser->getScructure();
 			
 		}
 		
+		PDConsole::endProcess("Code parsed: " . count($this->entitiesARR) . " entities");
+		
 	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 */
+	protected function generateDiaFile(){
+		
+		PDConsole::startProcess("Making diagram...");
+		
+		$diaFile = new PDDiaFile($this->entitiesARR);
+		$diaFile->writeFile('caca.dia');
+		
+		PDConsole::endProcess("File created");
+		
+	} 
 	
 	
 	
