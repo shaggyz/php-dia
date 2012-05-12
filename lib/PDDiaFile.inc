@@ -46,6 +46,32 @@ class PDDiaFile{
 	
 	/**
 	 * 
+	 * @param unknown_type $methodsARR
+	 */
+	private function _addMethods($methodsARR){
+		
+		$content = '';
+		
+		foreach ($methodsARR as $method){
+			
+			if (!array_key_exists('name', $method)){
+				continue;
+			}
+				
+			// Public by default
+			$scope = array_key_exists('scope', $method) ? $method['scope'] : 'public';
+			
+			
+		}
+		
+		
+		
+		
+		
+	}
+	
+	/**
+	 * 
 	 * Enter description here ...
 	 * @param unknown_type $classARR
 	 */
@@ -157,7 +183,7 @@ class PDDiaFile{
 				        <dia:real val="0.69999999999999996"/>
 				      </dia:attribute>
 				      <dia:attribute name="attributes"/>
-				      <dia:attribute name="operations"/>
+				      %%OPERATIONS%%
 				      <dia:attribute name="template">
 				        <dia:boolean val="false"/>
 				      </dia:attribute>

@@ -33,6 +33,7 @@ class PDPHPParser{
 		
 		foreach ($sourceCodeARR as $line){
 			$this->_extractClass($line);
+			$this->_extractMethods($line);
 		}
 		
 	}
@@ -83,9 +84,23 @@ class PDPHPParser{
 	 */
 	private function _extractMethods($line){
 		
+		if (preg_match('/(static\s+)?(public|private|protected)\s+(static\s+)?function\s+([a-zA-Z0-9-_]+)\s*\((.*)\)/', $line, $result)){
 			
-		
+			$methodItemARR = array();
+				
+			if(array_key_exists(2, $result)){
+				$methodItemARR['scope'] = $result[2];
+			}
+			
+			if(array_key_exists(4, $result)){
+				$methodItemARR['name'] = $result[4];
+			}
+				
+			$this->structure['methods'][] = $methodItemARR;
+			
+		}
 	}
+		
 	
 	
 	
