@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * 	--- php-dia ---
+ *
+ *  @description 	Simple PHP code parser (just some oop elements)
+ *  @author 		Nicolás Daniel Palumbo <npalumbo@xinax.net>
+ *  @license 		GNU/GPL v2.1 (http://www.gnu.org/licenses/lgpl-2.1.html)
+ *
+ **/
 class PDPHPParser{
 	
 	/**
@@ -13,8 +21,9 @@ class PDPHPParser{
 		'constants' => null,
 	);
 	
+	
 	/**
-	 * 
+	 * Main parser loop
 	 */
 	public function __construct($sourceCodeARR){
 
@@ -29,15 +38,20 @@ class PDPHPParser{
 	}
 	
 	/**
-	 * 
-	 * Enter description here ...
+	 * Return the entities structure
+	 * @return array 
 	 */
 	public function getScructure(){
 		return $this->structure;
 	}
 	
+	/**
+	 * Extracts a class definition
+	 * @param string $line
+	 */
 	private function _extractClass($line){
 		
+		// Just one per file, at moment
 		if(!is_null($this->structure['class'])){
 			return;
 		}
@@ -59,6 +73,17 @@ class PDPHPParser{
 			
 		} 
 		
+		
+	}
+	
+	
+	/**
+	 * Extracts methods from a line
+	 * @param string $line
+	 */
+	private function _extractMethods($line){
+		
+			
 		
 	}
 	

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * 	--- php-dia ---
+ *
+ *  @description 	Main program flow
+ *  @author 		Nicolás Daniel Palumbo <npalumbo@xinax.net>
+ *  @license 		GNU/GPL v2.1 (http://www.gnu.org/licenses/lgpl-2.1.html)
+ *
+ **/
+
 require_once "PDConsole.inc";
 require_once "PDPHPParser.inc";
 require_once "PDDiaFile.inc";
@@ -19,8 +28,7 @@ class PDProgram{
 	protected $phpFilesARR = array();
 
 	/**
-	 * 
-	 * Enter description here ...
+	 * Entities
 	 * @var array
 	 */
 	protected $entitiesARR;

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * 	--- php-dia ---
+ *
+ *  @description 	Console interface utils
+ *  @author 		Nicolás Daniel Palumbo <npalumbo@xinax.net>
+ *  @license 		GNU/GPL v2.1 (http://www.gnu.org/licenses/lgpl-2.1.html)
+ *
+ **/
+
 class PDConsole{
 	
 	/**

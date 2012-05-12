@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * 	--- php-dia ---
+ *
+ *  @description 	Dia file generator
+ *  @author 		Nicolás Daniel Palumbo <npalumbo@xinax.net>
+ *  @license 		GNU/GPL v2.1 (http://www.gnu.org/licenses/lgpl-2.1.html)
+ *
+ **/
 class PDDiaFile{
 
 	/**
