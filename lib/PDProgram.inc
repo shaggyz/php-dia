@@ -51,6 +51,8 @@ class PDProgram{
 				$this->quit(false);
 			}
 			
+			$outputFile = PDConsole::getArg(2);
+			
 			// extract the files .php and .inc recursively
 			$this->phpFilesARR = $this->scanFiles();
 			
@@ -58,7 +60,7 @@ class PDProgram{
 			$this->parsePHPCode();
 			
 			// gen the dia file
-			$this->generateDiaFile();
+			$this->generateDiaFile($outputFile);
 			
 			
 		} catch (Exception $e){
@@ -74,7 +76,7 @@ class PDProgram{
 	 * Help
 	 */
 	public static function showHelp(){
-		PDConsole::printLine("Usage: ./php-dia <path_to_php_files>");
+		PDConsole::printLine("Usage: ./php-dia path_to_php_files [output_file_name]");
 	}
 	
 	
@@ -159,14 +161,19 @@ class PDProgram{
 	 * 
 	 * Enter description here ...
 	 */
-	protected function generateDiaFile(){
+	protected function generateDiaFile($outputFile){
+		
+		if(is_null($outputFile)){
+			$outputFile = 'Diagram.dia';
+		}
+		
 		
 		PDConsole::startProcess("Making diagram...");
 		
 		$diaFile = new PDDiaFile($this->entitiesARR);
-		$diaFile->writeFile('caca.dia');
+		$diaFile->writeFile($outputFile);
 		
-		PDConsole::endProcess("File created");
+		PDConsole::endProcess("File ($outputFile) created");
 		
 	} 
 	
