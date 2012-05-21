@@ -40,6 +40,7 @@ class PDPHPParser{
 			
 			$this->_extractClass($line);
 			$this->_extractMethods($line);
+			$this->_extractProperties($line);
 		}
 		
 	}
@@ -135,7 +136,23 @@ class PDPHPParser{
 		}
 	}
 		
-	
+	/**
+	 * 
+	 * Enter description here ...
+	 */
+	private function _extractProperties($line){
+		
+		if (preg_match('/(static\s+)?(public|private|protected)\s+(static\s+)?\$([a-zA-z0-9-_]+)/', $line, $result)) {
+			
+			$propItemARR = array();
+			$propItemARR['scope'] = $result[2];
+			$propItemARR['name'] = $result[4];
+			
+			$this->structure['properties'][] = $propItemARR;
+			
+		}
+		
+	}
 	
 	
 }

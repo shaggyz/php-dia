@@ -147,7 +147,7 @@ class PDProgram{
 			$parser = new PDPHPParser(file($phpFile));
 			if ($structure = $parser->getScructure()){
 				$this->entitiesARR[] = $structure;
-			}
+			} 
 			
 		}
 		

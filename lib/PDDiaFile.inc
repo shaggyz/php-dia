@@ -16,13 +16,6 @@ class PDDiaFile{
 	 */
 	private $_content;
 	
-	/**
-	 * 
-	 * Enter description here ...
-	 * @var unknown_type
-	 */
-	private $_classX = 1;
-	
 
 	/**
 	 * Sets the .dia file path
@@ -40,10 +33,69 @@ class PDDiaFile{
 			
 			$this->_addClass($entity['class']);
 			$this->_addMethods($entity['methods']);
+			$this->_addProperties($entity['properties']);
+			
 			
 		}
 		
 	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $propARR
+	 */
+	private function _addProperties($propARR){
+		
+		if (!is_array($propARR)){
+			return;
+		}
+		
+		$content = '<dia:attribute name="attributes">';
+		
+		$scopeCodesARR = array(
+			'public' => 0,
+			'private' => 1,
+			'protected' => 2,
+		);
+		
+		foreach ($propARR as $prop){
+			
+			$scope = $prop['scope'];
+			
+			$content .= '
+		        <dia:composite type="umlattribute">
+		          <dia:attribute name="name">
+		            <dia:string>#' . $prop['name'] . '#</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="type">
+		            <dia:string>##</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="value">
+		            <dia:string>##</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="comment">
+		            <dia:string>##</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="visibility">
+		            <dia:enum val="' . $scopeCodesARR[$scope] . '"/>
+		          </dia:attribute>
+		          <dia:attribute name="abstract">
+		            <dia:boolean val="false"/>
+		          </dia:attribute>
+		          <dia:attribute name="class_scope">
+		            <dia:boolean val="false"/>
+		          </dia:attribute>
+		        </dia:composite>';
+			
+		}
+		
+		$content .= '</dia:attribute>';
+		
+		$this->_content = str_ireplace('%%PROPERTIES%%', $content, $this->_content);
+		
+	}
+	
 	
 	/**
 	 * 
@@ -157,7 +209,7 @@ class PDDiaFile{
 		
 		$content = '<dia:object type="UML - Class" version="0" id="O0">
 				      <dia:attribute name="obj_pos">
-				        <dia:point val="' . $this->_classX . '.0,5.2"/>
+				        <dia:point val="1.0,5.2"/>
 				      </dia:attribute>
 				      <dia:attribute name="obj_bb">
 				        <dia:rectangle val="4.15,5.15;7.17,7.45"/>
@@ -258,7 +310,7 @@ class PDDiaFile{
 				      <dia:attribute name="comment_font_height">
 				        <dia:real val="0.69999999999999996"/>
 				      </dia:attribute>
-				      <dia:attribute name="attributes"/>
+				      %%PROPERTIES%%
 				      %%OPERATIONS%%
 				      <dia:attribute name="template">
 				        <dia:boolean val="false"/>
@@ -268,7 +320,6 @@ class PDDiaFile{
 		
 		$this->_addXml($content);
 		
-		$this->_classX++;
 		
 	}
 	
@@ -369,7 +420,7 @@ class PDDiaFile{
 	 * @param unknown_type $path
 	 */
 	public function writeFile($filename, $path = '.'){
-		
+
 		$filepath = realpath($path) . DIRECTORY_SEPARATOR . $filename;
 		$content = str_ireplace('%%CURSOR%%', null, $this->_content);
 
