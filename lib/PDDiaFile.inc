@@ -37,7 +37,7 @@ class PDDiaFile{
 		$this->_setTemplate();
 		
 		foreach ($structure as $entity){
-//  			print_r($entity);
+			
 			$this->_addClass($entity['class']);
 			$this->_addMethods($entity['methods']);
 			
@@ -50,6 +50,10 @@ class PDDiaFile{
 	 * @param unknown_type $methodsARR
 	 */
 	private function _addMethods($methodsARR){
+
+		if (!is_array($methodsARR)){
+			return;
+		}
 		
 		$content = '';
 	

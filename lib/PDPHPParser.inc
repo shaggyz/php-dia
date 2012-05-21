@@ -31,12 +31,31 @@ class PDPHPParser{
 			throw new Exception("Php parser expects an array as code");
 		}
 		
+		if(!$this->_haveClass($sourceCodeARR)){
+			$this->structure = null;
+			return;
+		}		
+		
 		foreach ($sourceCodeARR as $line){
+			
 			$this->_extractClass($line);
 			$this->_extractMethods($line);
 		}
 		
 	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $codeARR
+	 */
+	private function _haveClass($codeARR){
+		
+		$code = implode('', $codeARR);
+		return preg_match('/class.+\n*\{/', $code);
+		
+	}
+	
 	
 	/**
 	 * Return the entities structure

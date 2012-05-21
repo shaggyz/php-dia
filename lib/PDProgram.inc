@@ -145,7 +145,9 @@ class PDProgram{
 		foreach ($this->phpFilesARR as $phpFile){
 			
 			$parser = new PDPHPParser(file($phpFile));
-			$this->entitiesARR[] = $parser->getScructure();
+			if ($structure = $parser->getScructure()){
+				$this->entitiesARR[] = $structure;
+			}
 			
 		}
 		
