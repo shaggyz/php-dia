@@ -37,8 +37,10 @@ class PDDiaFile{
 		$this->_setTemplate();
 		
 		foreach ($structure as $entity){
-			
+// 			print_r($entity);
+// 			die();
 			$this->_addClass($entity['class']);
+			$this->_addMethods($entity['methods']);
 			
 		}
 		
@@ -50,7 +52,85 @@ class PDDiaFile{
 	 */
 	private function _addMethods($methodsARR){
 		
+		/*
+ [methods] => Array
+        (
+            [0] => Array
+                (
+                    [scope] => public
+                    [name] => __construct
+                )
+
+            [1] => Array
+                (
+                    [scope] => private
+                    [name] => _getPalabra
+                )
+
+            [2] => Array
+                (
+                    [scope] => public
+                    [name] => getPalabraPlain
+                )
+
+            [3] => Array
+                (
+                    [scope] => public
+                    [name] => init
+                )
+
+            [4] => Array
+                (
+                    [scope] => private
+                    [name] => _generaImagen
+                )
+
+            [5] => Array
+                (
+                    [scope] => public
+                    [name] => get_hash_value
+                )
+
+            [6] => Array
+                (
+                    [scope] => public
+                    [name] => compare_palabra
+                )
+
+            [7] => Array
+                (
+                    [scope] => public
+                    [name] => getImg
+                )
+
+            [8] => Array
+                (
+                    [scope] => public
+                    [name] => setAlto
+                )
+
+            [9] => Array
+                (
+                    [scope] => public
+                    [name] => setAncho
+                )
+
+            [10] => Array
+                (
+                    [scope] => public
+                    [name] => setCodeString
+                )
+
+        )
+		 * */
+		
 		$content = '';
+	
+		$scopeCodesARR = array(
+			'public' => 0,
+			'private' => 1,
+			'protected' => 2,
+		);
 		
 		foreach ($methodsARR as $method){
 			
@@ -61,14 +141,67 @@ class PDDiaFile{
 			// Public by default
 			$scope = array_key_exists('scope', $method) ? $method['scope'] : 'public';
 			
+
+			$content .= '
+				<dia:composite type="umloperation">
+		          <dia:attribute name="name">
+		            <dia:string>#' . $method['name'] . '#</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="stereotype">
+		            <dia:string>##</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="type">
+		            <dia:string>##</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="visibility">
+		            <dia:enum val="' . $scopeCodesARR[$scope] . '"/>
+		          </dia:attribute>
+		          <dia:attribute name="comment">
+		            <dia:string>##</dia:string>
+		          </dia:attribute>
+		          <dia:attribute name="abstract">
+		            <dia:boolean val="false"/>
+		          </dia:attribute>
+		          <dia:attribute name="inheritance_type">
+		            <dia:enum val="1"/>
+		          </dia:attribute>
+		          <dia:attribute name="query">
+		            <dia:boolean val="false"/>
+		          </dia:attribute>
+		          <dia:attribute name="class_scope">
+		            <dia:boolean val="false"/>
+		          </dia:attribute>';
+		          
+		          $params = '<dia:attribute name="parameters">
+					          <dia:composite type="umlparameter">
+					              <dia:attribute name="name">
+					                <dia:string>#param1#</dia:string>
+					              </dia:attribute>
+					              <dia:attribute name="type">
+					                <dia:string>##</dia:string>
+					              </dia:attribute>
+					              <dia:attribute name="value">
+					                <dia:string>##</dia:string>
+					              </dia:attribute>
+					              <dia:attribute name="comment">
+					                <dia:string>##</dia:string>
+					              </dia:attribute>
+					              <dia:attribute name="kind">
+					                <dia:enum val="0"/>
+					              </dia:attribute>
+					            </dia:composite>
+					          </dia:attribute>';
+		          
+		        $content .= '</dia:composite>';
+			
 			
 		}
 		
-		
-		
-		
+		$content = '<dia:attribute name="operations">' . $content . '</dia:attribute>';
+		$this->_content = str_ireplace('%%OPERATIONS%%', $content, $this->_content);
 		
 	}
+	
 	
 	/**
 	 * 
@@ -280,9 +413,9 @@ class PDDiaFile{
 	 * Enter description here ...
 	 * @param unknown_type $xml
 	 */
-	private function _addXml($xml){
+	private function _addXml($xml, $token = '%%CURSOR%%'){
 		
-		$this->_content = str_ireplace('%%CURSOR%%', $xml . '%%CURSOR%%', $this->_content);
+		$this->_content = str_ireplace($token, $xml . $token, $this->_content);
 		
 	}
 	
