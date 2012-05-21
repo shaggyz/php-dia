@@ -37,8 +37,7 @@ class PDDiaFile{
 		$this->_setTemplate();
 		
 		foreach ($structure as $entity){
-// 			print_r($entity);
-// 			die();
+//  			print_r($entity);
 			$this->_addClass($entity['class']);
 			$this->_addMethods($entity['methods']);
 			
@@ -51,78 +50,6 @@ class PDDiaFile{
 	 * @param unknown_type $methodsARR
 	 */
 	private function _addMethods($methodsARR){
-		
-		/*
- [methods] => Array
-        (
-            [0] => Array
-                (
-                    [scope] => public
-                    [name] => __construct
-                )
-
-            [1] => Array
-                (
-                    [scope] => private
-                    [name] => _getPalabra
-                )
-
-            [2] => Array
-                (
-                    [scope] => public
-                    [name] => getPalabraPlain
-                )
-
-            [3] => Array
-                (
-                    [scope] => public
-                    [name] => init
-                )
-
-            [4] => Array
-                (
-                    [scope] => private
-                    [name] => _generaImagen
-                )
-
-            [5] => Array
-                (
-                    [scope] => public
-                    [name] => get_hash_value
-                )
-
-            [6] => Array
-                (
-                    [scope] => public
-                    [name] => compare_palabra
-                )
-
-            [7] => Array
-                (
-                    [scope] => public
-                    [name] => getImg
-                )
-
-            [8] => Array
-                (
-                    [scope] => public
-                    [name] => setAlto
-                )
-
-            [9] => Array
-                (
-                    [scope] => public
-                    [name] => setAncho
-                )
-
-            [10] => Array
-                (
-                    [scope] => public
-                    [name] => setCodeString
-                )
-
-        )
-		 * */
 		
 		$content = '';
 	
@@ -172,10 +99,16 @@ class PDDiaFile{
 		            <dia:boolean val="false"/>
 		          </dia:attribute>';
 		          
-		          $params = '<dia:attribute name="parameters">
-					          <dia:composite type="umlparameter">
+				  $paramsARR = $method['params'];
+				  if(is_array($paramsARR) && count($paramsARR)){
+			
+		          		$content .= '<dia:attribute name="parameters">';
+		          		
+		          		foreach ($paramsARR as $param){
+					          
+		          				$content .= '<dia:composite type="umlparameter">
 					              <dia:attribute name="name">
-					                <dia:string>#param1#</dia:string>
+					                <dia:string>#' . $param . '#</dia:string>
 					              </dia:attribute>
 					              <dia:attribute name="type">
 					                <dia:string>##</dia:string>
@@ -189,8 +122,14 @@ class PDDiaFile{
 					              <dia:attribute name="kind">
 					                <dia:enum val="0"/>
 					              </dia:attribute>
-					            </dia:composite>
-					          </dia:attribute>';
+					            </dia:composite>';
+		          				
+				          
+		          		}
+		          		
+			            $content .= '</dia:attribute>';
+		          
+				  }
 		          
 		        $content .= '</dia:composite>';
 			

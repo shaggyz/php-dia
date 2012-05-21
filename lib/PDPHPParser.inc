@@ -77,6 +77,19 @@ class PDPHPParser{
 		
 	}
 	
+	/**
+	 * 
+	 * @param unknown_type $code
+	 */
+	private function _extractParams($code){
+		
+		if (preg_match_all('/\$([a-zA-Z0-9-_]+)/', $code, $result)) {
+			return $result[1];
+		}
+		
+		return null;
+		
+	}
 	
 	/**
 	 * Extracts methods from a line
@@ -87,7 +100,7 @@ class PDPHPParser{
 		if (preg_match('/(static\s+)?(public|private|protected)\s+(static\s+)?function\s+([a-zA-Z0-9-_]+)\s*\((.*)\)/', $line, $result)){
 			
 			$methodItemARR = array();
-				
+			
 			if(array_key_exists(2, $result)){
 				$methodItemARR['scope'] = $result[2];
 			}
@@ -95,6 +108,8 @@ class PDPHPParser{
 			if(array_key_exists(4, $result)){
 				$methodItemARR['name'] = $result[4];
 			}
+			
+			$methodItemARR['params'] = $this->_extractParams($result[5]);
 				
 			$this->structure['methods'][] = $methodItemARR;
 			
