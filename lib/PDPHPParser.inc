@@ -47,8 +47,8 @@ class PDPHPParser{
 	
 	/**
 	 * 
-	 * Enter description here ...
-	 * @param unknown_type $codeARR
+	 * Find the item "class" in the xml code
+	 * @param array $codeARR
 	 */
 	private function _haveClass($codeARR){
 		
@@ -98,8 +98,8 @@ class PDPHPParser{
 	}
 	
 	/**
-	 * 
-	 * @param unknown_type $code
+	 * Extracts method params from a method definition string
+	 * @param string $code
 	 */
 	private function _extractParams($code){
 		
@@ -110,6 +110,7 @@ class PDPHPParser{
 		return null;
 		
 	}
+	
 	
 	/**
 	 * Extracts methods from a line
@@ -136,9 +137,10 @@ class PDPHPParser{
 		}
 	}
 		
+	
 	/**
 	 * 
-	 * Enter description here ...
+	 * Extracts the properties from a class definition 
 	 */
 	private function _extractProperties($line){
 		

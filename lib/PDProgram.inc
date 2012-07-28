@@ -138,7 +138,7 @@ class PDProgram{
 	
 	/**
 	 * 
-	 * Enter description here ...
+	 * Implements the php code parser
 	 */
 	protected function parsePHPCode(){
 		
@@ -158,15 +158,13 @@ class PDProgram{
 	}
 	
 	/**
-	 * 
-	 * Enter description here ...
+	 * Writes the dia file
 	 */
 	protected function generateDiaFile($outputFile){
 		
 		if(is_null($outputFile)){
 			$outputFile = 'Diagram.dia';
 		}
-		
 		
 		PDConsole::startProcess("Making diagram...");
 		

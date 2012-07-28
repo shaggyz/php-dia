@@ -98,8 +98,8 @@ class PDDiaFile{
 	
 	
 	/**
-	 * Adds methods
-	 * @param unknown_type $methodsARR
+	 * Adds methods to buffer
+	 * @param array $methodsARR
 	 */
 	private function _addMethods($methodsARR){
 
@@ -200,8 +200,8 @@ class PDDiaFile{
 	
 	/**
 	 * 
-	 * Enter description here ...
-	 * @param unknown_type $classARR
+	 * Adds a class element
+	 * @param array $classARR
 	 */
 	private function _addClass($classARR){
 		
@@ -402,10 +402,11 @@ class PDDiaFile{
 		
 	}
 	
+	
 	/**
 	 * 
-	 * Enter description here ...
-	 * @param unknown_type $xml
+	 * Xml replacement helper
+	 * @param string $xml
 	 */
 	private function _addXml($xml, $token = '%%CURSOR%%'){
 		
@@ -413,11 +414,12 @@ class PDDiaFile{
 		
 	}
 	
+	
 	/**
 	 * 
-	 * Enter description here ...
-	 * @param unknown_type $filename
-	 * @param unknown_type $path
+	 * Writes the final file to disk
+	 * @param string $filename
+	 * @param string $path
 	 */
 	public function writeFile($filename, $path = '.'){
 
