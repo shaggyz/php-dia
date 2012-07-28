@@ -42,8 +42,8 @@ class PDDiaFile{
 	
 	/**
 	 * 
-	 * Enter description here ...
-	 * @param unknown_type $propARR
+	 * Adds the properties section to buffer
+	 * @param array $propARR
 	 */
 	private function _addProperties($propARR){
 		
@@ -98,7 +98,7 @@ class PDDiaFile{
 	
 	
 	/**
-	 * 
+	 * Adds methods
 	 * @param unknown_type $methodsARR
 	 */
 	private function _addMethods($methodsARR){

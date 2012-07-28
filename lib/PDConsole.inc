@@ -45,7 +45,7 @@ class PDConsole{
 	}
 	
 	/**
-	 * Reads a line of text from standard input.
+	 * Reads a line from standard input.
 	 * @return string : null
 	 */
 	public static function readLine(){
@@ -58,7 +58,7 @@ class PDConsole{
 	}
 	
 	/**
-	* Prints a string on one line. The default is to append a newline at the end
+	* Prints a text line. The default is to append a newline escape at the end
 	* @param string $cadena
 	* @param boolean $newLine
 	*/
