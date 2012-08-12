@@ -10,7 +10,7 @@ Requirements:
 -------------
 
 - php 5.x
-- Dia (testing on Dia 0.97.2 under debian linux squeeze)
+- Dia (tested on Dia 0.97.2 under debian linux squeeze and OSX 1.7.3)
 
 Usage:
 ------
@@ -18,3 +18,8 @@ Usage:
 <code>chmod +x php-dia</code>
 
 <code>./php-dia source-code-dir [output file name]</code>
+
+Example test:
+-------------
+
+<code>./php-dia lib/</code>

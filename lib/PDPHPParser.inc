@@ -47,7 +47,7 @@ class PDPHPParser{
 	
 	/**
 	 * 
-	 * Find the item "class" in the xml code
+	 * Find the "class" item in the xml code
 	 * @param array $codeARR
 	 */
 	private function _haveClass($codeARR){

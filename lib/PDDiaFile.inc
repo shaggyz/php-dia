@@ -35,7 +35,6 @@ class PDDiaFile{
 			$this->_addMethods($entity['methods']);
 			$this->_addProperties($entity['properties']);
 			
-			
 		}
 		
 	}
@@ -47,7 +46,8 @@ class PDDiaFile{
 	 */
 	private function _addProperties($propARR){
 		
-		if (!is_array($propARR)){
+		if (!is_array($propARR) || !count($propARR)){
+			$this->_content = str_ireplace('%%PROPERTIES%%', "", $this->_content);
 			return;
 		}
 		
@@ -103,7 +103,8 @@ class PDDiaFile{
 	 */
 	private function _addMethods($methodsARR){
 
-		if (!is_array($methodsARR)){
+		if (!is_array($methodsARR) || !count($methodsARR)){
+			$this->_content = str_ireplace('%%OPERATIONS%%', "", $this->_content);
 			return;
 		}
 		
@@ -121,7 +122,7 @@ class PDDiaFile{
 				continue;
 			}
 				
-			// Public by default
+			// Default is public 
 			$scope = array_key_exists('scope', $method) ? $method['scope'] : 'public';
 			
 
