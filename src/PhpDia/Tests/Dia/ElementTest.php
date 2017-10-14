@@ -1,48 +1,87 @@
+<?php
+
+namespace PhpDia\Tests\Dia;
+
+use PhpDia\Dia\Attribute;
+use PhpDia\Dia\Element;
+use PhpDia\Dia\Operation;
+use PhpDia\Dia\Values\BoundingBox;
+use PhpDia\Dia\Values\Position;
+use PHPUnit\Framework\TestCase;
+
+class ElementTest extends TestCase
+{
+    public function testRenderElement()
+    {
+        $attributeProphecy = $this->prophesize(Attribute::class);
+        $attributeProphecy->render()->willReturn('attribute');
+
+        $operationProphecy = $this->prophesize(Operation::class);
+        $operationProphecy->render()->willReturn('operation');
+
+        $element = Element::create('ClassNico')
+            ->setPosition(Position::create(1.55, 3.45))
+            ->setCorner(Position::create(1.55, 3.45))
+            ->setBoundingBox(BoundingBox::create(1.5, 3.4, 14.805, 9.3))
+            ->setComment('Class comment')
+            ->addAttribute($attributeProphecy->reveal())
+            ->addAttribute($attributeProphecy->reveal())
+            ->addOperation($operationProphecy->reveal())
+            ->addOperation($operationProphecy->reveal())
+            ->setWidth(13.205)
+            ->setHeight(5.7999999999999);
+
+        $this->assertEquals($this->getExpected(), $element->render());
+    }
+
+    public function getExpected() : string
+    {
+        static $expected = <<<EOL
 <dia:object type="UML - Class" version="0" id="O0">
     <dia:attribute name="obj_pos">
-        <dia:point val="{{ position }}"/>
+        <dia:point val="1.55,3.45"/>
     </dia:attribute>
     <dia:attribute name="obj_bb">
-        <dia:rectangle val="{{ boundingBox }}"/>
+        <dia:rectangle val="1.5,3.4;14.805,9.3"/>
     </dia:attribute>
     <dia:attribute name="elem_corner">
-        <dia:point val="{{ corner }}"/>
+        <dia:point val="1.55,3.45"/>
     </dia:attribute>
     <dia:attribute name="elem_width">
-        <dia:real val="{{ width }}"/>
+        <dia:real val="13.205"/>
     </dia:attribute>
     <dia:attribute name="elem_height">
-        <dia:real val="{{ height }}"/>
+        <dia:real val="5.7999999999999"/>
     </dia:attribute>
     <dia:attribute name="name">
-        <dia:string>#{{ name }}#</dia:string>
+        <dia:string>#ClassNico#</dia:string>
     </dia:attribute>
     <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
     </dia:attribute>
     <dia:attribute name="comment">
-        <dia:string>#{{ comment }}#</dia:string>
+        <dia:string>#Class comment#</dia:string>
     </dia:attribute>
     <dia:attribute name="abstract">
-        <dia:boolean val="{{ abstract }}"/>
+        <dia:boolean val="false"/>
     </dia:attribute>
     <dia:attribute name="suppress_attributes">
-        <dia:boolean val="{{ suppressAttributes }}"/>
+        <dia:boolean val="false"/>
     </dia:attribute>
     <dia:attribute name="suppress_operations">
-        <dia:boolean val="{{ suppressOperations }}"/>
+        <dia:boolean val="false"/>
     </dia:attribute>
     <dia:attribute name="visible_attributes">
-        <dia:boolean val="{{ visibleAttributes }}"/>
+        <dia:boolean val="true"/>
     </dia:attribute>
     <dia:attribute name="visible_operations">
-        <dia:boolean val="{{ visibleOperations }}"/>
+        <dia:boolean val="true"/>
     </dia:attribute>
     <dia:attribute name="visible_comments">
-        <dia:boolean val="{{ visibleComments }}"/>
+        <dia:boolean val="false"/>
     </dia:attribute>
     <dia:attribute name="wrap_operations">
-        <dia:boolean val="{{ wrapOperations }}"/>
+        <dia:boolean val="true"/>
     </dia:attribute>
     <dia:attribute name="wrap_after_char">
         <dia:int val="40"/>
@@ -57,13 +96,13 @@
         <dia:real val="0.10000000000000001"/>
     </dia:attribute>
     <dia:attribute name="line_color">
-        <dia:color val="{{ lineColor }}"/>
+        <dia:color val="#000000"/>
     </dia:attribute>
     <dia:attribute name="fill_color">
-        <dia:color val="{{ fillColor }}"/>
+        <dia:color val="#ffffff"/>
     </dia:attribute>
     <dia:attribute name="text_color">
-        <dia:color val="{{ textColor }}"/>
+        <dia:color val="#000000"/>
     </dia:attribute>
     <dia:attribute name="normal_font">
         <dia:font family="monospace" style="0" name="Courier"/>
@@ -102,17 +141,19 @@
         <dia:real val="0.69999999999999996"/>
     </dia:attribute>
     <dia:attribute name="attributes">
-    {% for attribute in attributes %}
-    {{ attribute.render() }}
-    {% endfor %}
-    </dia:attribute>
+        attribute
+        attribute
+        </dia:attribute>
     <dia:attribute name="operations">
-    {% for operation in operations %}
-    {{ operation.render() }}
-    {% endfor %}
-    </dia:attribute>
+        operation
+        operation
+        </dia:attribute>
     <dia:attribute name="template">
         <dia:boolean val="false"/>
     </dia:attribute>
     <dia:attribute name="templates"/>
 </dia:object>
+EOL;
+        return $expected;
+    }
+}
