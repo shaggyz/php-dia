@@ -1,17 +1,17 @@
 <dia:composite type="umlparameter">
     <dia:attribute name="name">
-        <dia:string>#name#</dia:string>
+        <dia:string>#{{ name }}#</dia:string>
     </dia:attribute>
     <dia:attribute name="type">
-        <dia:string>#string#</dia:string>
+        <dia:string>#{{ type }}#</dia:string>
     </dia:attribute>
     <dia:attribute name="value">
-        <dia:string>#n#</dia:string>
+        <dia:string>#{{ value }}#</dia:string>
     </dia:attribute>
     <dia:attribute name="comment">
-        <dia:string>##</dia:string>
+        <dia:string>#{{ comment }}#</dia:string>
     </dia:attribute>
     <dia:attribute name="kind">
-        <dia:enum val="0"/>
+        <dia:enum val="{{ kind }}"/>
     </dia:attribute>
 </dia:composite>
