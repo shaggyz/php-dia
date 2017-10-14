@@ -4,6 +4,7 @@ namespace PhpDia\Tests\Dia;
 
 use PhpDia\Dia\Diagram;
 use PhpDia\Dia\Document;
+use PhpDia\Dia\Layer;
 use PHPUnit\Framework\TestCase;
 
 class DocumentTest extends TestCase
@@ -11,15 +12,22 @@ class DocumentTest extends TestCase
     public function testRenderDocument()
     {
         $diagramProphecy = $this->prophesize(Diagram::class);
-        $diagramProphecy->render()->willReturn('render');
+        $diagramProphecy->render()->willReturn('diagram');
+
+        $layerProphecy = $this->prophesize(Layer::class);
+        $layerProphecy->render()->willReturn('layers');
 
         $document = new Document();
-        $document->addDiagram($diagramProphecy->reveal());
+        $document->addDiagram($diagramProphecy->reveal())
+            ->addLayer($layerProphecy->reveal())
+            ->addLayer($layerProphecy->reveal());
 
         $expected = <<<EOL
 <?xml version="1.0" encoding="UTF-8"?>
 <dia:diagram xmlns:dia="http://www.lysator.liu.se/~alla/dia/">
-    render
+    diagram
+    layers
+    layers
 </dia:diagram>
 EOL;
 

@@ -12,11 +12,28 @@ class Document implements RenderItem
     protected $diagram;
 
     /**
+     * @var Layer[]
+     */
+    protected $layers = [];
+
+    /**
      * @param Diagram $diagram
+     * @return $this
      */
     public function addDiagram(Diagram $diagram)
     {
         $this->diagram = $diagram;
+        return $this;
+    }
+
+    /**
+     * @param Layer $layer
+     * @return $this
+     */
+    public function addLayer(Layer $layer)
+    {
+        $this->layers[] = $layer;
+        return $this;
     }
 
     /**
@@ -38,7 +55,9 @@ class Document implements RenderItem
             $values['diagram'] = $this->diagram->render();
         }
 
-        return $values;
+        return [
+            'diagram' => $this->diagram->render(),
+            'layers' => $this->layers
+        ];
     }
-
 }
