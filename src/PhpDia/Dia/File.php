@@ -29,14 +29,25 @@ class File
         $this->extension = $extension;
     }
 
+    public function create()
+    {
+        $this->createDocument();
+    }
+
     /**
      * @param string $filePath
      * @return bool
      */
     public function save(string $filePath, bool $compress = false) : bool
     {
+        $contents = $this->contents;
+
         if ($compress) {
-            $blob = $this->compress($this->contents);
+            $contents = $this->compress($contents);
+        }
+
+        if (file_put_contents($this->getFileName($filePath), $contents)) {
+            return true;
         }
 
         return false;
@@ -45,9 +56,13 @@ class File
     /**
      * @return string
      */
-    public function getFileName() : string
+    public function getFileName(string $path = "") : string
     {
-        return $this->fileName . "." . $this->extension;
+        if (!empty($path) && $path[strlen($path) - 1] !== DIRECTORY_SEPARATOR) {
+            $path = $path . DIRECTORY_SEPARATOR;
+        }
+
+        return $path . $this->fileName . "." . $this->extension;
     }
 
     /**
@@ -65,5 +80,10 @@ class File
     protected function compress(string $contents) : string
     {
         return $contents;
+    }
+
+    protected function createDocument()
+    {
+        $this->contents = 'nico';
     }
 }

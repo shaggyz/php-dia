@@ -14,6 +14,8 @@ class TemplateManager
 
     const TEMPLATES_PATH = __DIR__ . '/Templates';
 
+    const TEMPLATES_EXTENSION = '.xml.twig';
+
     private function __construct()
     {
         $this->twig = $this->createTwigEnvironment();
@@ -34,7 +36,7 @@ class TemplateManager
      */
     public function render(string $template, array $data = []) : string
     {
-        return $this->twig->render($template, $data);
+        return $this->twig->render($template . static::TEMPLATES_EXTENSION, $data);
     }
 
     /**

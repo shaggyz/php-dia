@@ -12,6 +12,8 @@ class FileTest extends TestCase
         $diaFile = new File('example');
         $this->assertEquals('example.dia', $diaFile->getFileName());
 
+        $diaFile->create();
+
         $this->assertTrue($diaFile->save('/tmp'));
         $this->assertFileExists('/tmp/example.dia');
     }
