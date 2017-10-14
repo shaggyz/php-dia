@@ -1,0 +1,24 @@
+{
+    "name": "shaggyz/php-dia",
+    "description": "Diagram generator from php source code for GNU Dia.",
+    "type": "program",
+    "license": "GNU GPL v2",
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nicolas Daniel Palumbo",
+            "email": "n@xinax.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.22",
+        "twig/twig": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    }
+}
