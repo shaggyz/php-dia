@@ -1,4 +1,4 @@
 # Run tests
 test:
-	vendor/bin/phpunit src/
+	@vendor/bin/phpunit src/
 
