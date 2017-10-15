@@ -9,6 +9,8 @@ class Element implements RenderItem
 {
     const TEMPLATE = 'element';
 
+    const ELEMENT_TYPE = 'UML - Element';
+
     /** @var Position */
     protected $position;
 
@@ -119,7 +121,8 @@ class Element implements RenderItem
             'fillColor' => $this->getFillColor(),
             'textColor' => $this->getTextColor(),
             'attributes' => $this->attributes,
-            'operations' => $this->operations
+            'operations' => $this->operations,
+            'elementType' => static::ELEMENT_TYPE
         ];
     }
 

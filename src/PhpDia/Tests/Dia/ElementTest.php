@@ -3,7 +3,7 @@
 namespace PhpDia\Tests\Dia;
 
 use PhpDia\Dia\Attribute;
-use PhpDia\Dia\Element;
+use PhpDia\Dia\ClassElement;
 use PhpDia\Dia\Operation;
 use PhpDia\Dia\Values\BoundingBox;
 use PhpDia\Dia\Values\Position;
@@ -19,7 +19,7 @@ class ElementTest extends TestCase
         $operationProphecy = $this->prophesize(Operation::class);
         $operationProphecy->render()->willReturn('operation');
 
-        $element = Element::create('ClassNico')
+        $element = ClassElement::create('ClassNico')
             ->setPosition(Position::create(1.55, 3.45))
             ->setCorner(Position::create(1.55, 3.45))
             ->setBoundingBox(BoundingBox::create(1.5, 3.4, 14.805, 9.3))

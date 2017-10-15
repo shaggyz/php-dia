@@ -8,14 +8,10 @@ class Document implements RenderItem
 {
     const TEMPLATE = 'document';
 
-    /**
-     * @var Diagram
-     */
+    /** @var Diagram */
     protected $diagram;
 
-    /**
-     * @var Layer[]
-     */
+    /** @var Layer[] */
     protected $layers = [];
 
     /**
