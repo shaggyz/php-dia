@@ -43,7 +43,7 @@ class File
      * @param string $filePath
      * @return bool
      */
-    public function save(string $filePath, bool $compress = false) : bool
+    public function save(string $filePath, bool $compress = true) : bool
     {
         $contents = $this->contents;
 
@@ -84,6 +84,6 @@ class File
      */
     protected function compress(string $contents) : string
     {
-        return $contents;
+        return gzencode($contents, 9);
     }
 }
