@@ -18,9 +18,6 @@ $diagram = new Diagram();
 $layer = new Layer();
 
 $myClass = ClassElement::create('MyClass')
-    ->setCorner(Position::createEmpty())
-    ->setPosition(Position::createEmpty())
-    ->setBoundingBox(BoundingBox::createEmpty())
     ->addAttribute(Attribute::create('name', 'string'))
     ->addOperation(Operation::create('getName', 'string'))
     ->addOperation(
@@ -29,9 +26,6 @@ $myClass = ClassElement::create('MyClass')
     );
 
 $yourClass = ClassElement::create('YourClass')
-    ->setCorner(Position::create(14, 0))
-    ->setPosition(Position::createEmpty())
-    ->setBoundingBox(BoundingBox::createEmpty())
     ->addAttribute(Attribute::create('title', 'string'))
     ->addOperation(Operation::create('getTitle', 'string'))
     ->addOperation(

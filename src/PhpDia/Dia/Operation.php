@@ -31,7 +31,7 @@ class Operation implements RenderItem
     /** @var bool */
     protected $classScope = false;
 
-    /** @var Parameter */
+    /** @var Parameter[] */
     protected $parameters = [];
 
     /**
@@ -232,5 +232,21 @@ class Operation implements RenderItem
     {
         $this->abstract = $abstract;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasParameters() : bool
+    {
+        return count($this->parameters) > 0;
+    }
+
+    /**
+     * @return Parameter[]
+     */
+    public function getParameters() : array
+    {
+        return $this->parameters;
     }
 }

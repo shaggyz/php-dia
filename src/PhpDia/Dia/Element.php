@@ -11,6 +11,8 @@ class Element implements RenderItem
 
     const ELEMENT_TYPE = 'UML - Element';
 
+    const CHAR_WIDTH = 0.6;
+
     /** @var Position */
     protected $position;
 
@@ -74,10 +76,11 @@ class Element implements RenderItem
     private function __construct(string $name)
     {
         $this->setName($name);
-        $this->setPosition(Position::create(1.5, 3.5));
-        $this->setCorner($this->getPosition());
-        $this->setWidth(13.2);
-        $this->setHeight(5.8);
+        $this->setPosition(Position::createEmpty());
+        $this->setCorner(Position::createEmpty());
+        $this->setBoundingBox(BoundingBox::createEmpty());
+        $this->setWidth(0);
+        $this->setHeight(0);
     }
 
     /**
@@ -94,7 +97,40 @@ class Element implements RenderItem
      */
     public function render(): string
     {
+        $this->calculateGeometry();
         return TemplateManager::create()->render(static::TEMPLATE, $this->getValues());
+    }
+
+    protected function calculateGeometry()
+    {
+        $width = 0;
+
+        foreach ($this->attributes as $attribute) {
+            $attributeString = '#' . $attribute->getName() . ': ' . $attribute->getType();
+            $computedWidth = strlen($attributeString) * static::CHAR_WIDTH;
+            if ($computedWidth > $width) {
+                $width = $computedWidth;
+            }
+        }
+
+        foreach ($this->operations as $operation) {
+            $operationString = '#' . $operation->getName() . '(';
+            $parameters = [];
+            foreach ($operation->getParameters() as $parameter) {
+                $parameters[] = $parameter->getName() . ':' . $parameter->getType();
+            }
+            $operationString .= implode(', ', $parameters);
+            $operationString .= '): ';
+
+            $computedWidth = strlen($operationString) * static::CHAR_WIDTH;
+
+            if ($computedWidth > $width) {
+                $width = $computedWidth;
+            }
+
+        }
+
+        $this->setWidth($width);
     }
 
     /**
