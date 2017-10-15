@@ -10,12 +10,17 @@ use PhpDia\Dia\ClassElement;
 use PhpDia\Dia\Attribute;
 use PhpDia\Dia\Operation;
 use PhpDia\Dia\Parameter;
+use PhpDia\Dia\Values\BoundingBox;
+use PhpDia\Dia\Values\Position;
 
 $document = new Document();
 $diagram = new Diagram();
 $layer = new Layer();
 
-$class = ClassElement::create('MyClass')
+$myClass = ClassElement::create('MyClass')
+    ->setCorner(Position::createEmpty())
+    ->setPosition(Position::createEmpty())
+    ->setBoundingBox(BoundingBox::createEmpty())
     ->addAttribute(Attribute::create('name', 'string'))
     ->addOperation(Operation::create('getName', 'string'))
     ->addOperation(
@@ -23,7 +28,23 @@ $class = ClassElement::create('MyClass')
             ->addParameter(Parameter::create('name', 'string'))
     );
 
-$layer->addElement($class);
+$yourClass = ClassElement::create('YourClass')
+    ->setCorner(Position::create(14, 0))
+    ->setPosition(Position::createEmpty())
+    ->setBoundingBox(BoundingBox::createEmpty())
+    ->addAttribute(Attribute::create('title', 'string'))
+    ->addOperation(Operation::create('getTitle', 'string'))
+    ->addOperation(
+        Operation::create('setTitle')
+            ->addParameter(Parameter::create('title', 'string'))
+    )
+    ->addOperation(
+        Operation::create('isActive', 'bool')
+            ->setVisibility(Attribute::VISIBILITY_PROTECTED)
+    );
+
+$layer->addElement($myClass);
+$layer->addElement($yourClass);
 
 $document->addDiagram($diagram);
 $document->addLayer($layer);

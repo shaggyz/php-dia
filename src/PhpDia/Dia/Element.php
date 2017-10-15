@@ -100,7 +100,7 @@ class Element implements RenderItem
     /**
      * @return array
      */
-    public function getValues() : array
+    protected function getValues() : array
     {
         return [
             'position' => $this->position,
@@ -125,6 +125,8 @@ class Element implements RenderItem
             'elementType' => static::ELEMENT_TYPE
         ];
     }
+
+
 
     /**
      * @param Attribute $attribute
