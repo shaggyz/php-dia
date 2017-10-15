@@ -16,7 +16,7 @@ class Attribute implements RenderItem
     protected $type;
 
     /** @var string */
-    protected $value;
+    protected $value = "";
 
     /** @var int */
     protected $visibility = self::VISIBILITY_PUBLIC;

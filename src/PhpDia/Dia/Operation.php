@@ -17,7 +17,7 @@ class Operation implements RenderItem
     protected $visibility = Attribute::VISIBILITY_PUBLIC;
 
     /** @var string */
-    protected $comment;
+    protected $comment = "";
 
     /** @var int */
     protected $inheritance = self::INHERITANCE_UNKNOWN;
@@ -38,7 +38,7 @@ class Operation implements RenderItem
      * @param string $name
      * @param string $type
      */
-    private function __construct(string $name, string $type)
+    private function __construct(string $name, string $type = 'void')
     {
         $this->name = $name;
         $this->type = $type;
@@ -49,7 +49,7 @@ class Operation implements RenderItem
      * @param string $type
      * @return Operation
      */
-    public static function create(string $name, string $type) : Operation
+    public static function create(string $name, string $type = 'void') : Operation
     {
         return new static($name, $type);
     }

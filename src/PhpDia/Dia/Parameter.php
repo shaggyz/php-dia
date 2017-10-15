@@ -14,10 +14,10 @@ class Parameter implements RenderItem
     protected $type;
 
     /** @var string */
-    protected $value;
+    protected $value = "";
 
     /** @var string */
-    protected $comment;
+    protected $comment= "";
 
     /** @var int */
     protected $kind = self::UNKNOWN_KIND;

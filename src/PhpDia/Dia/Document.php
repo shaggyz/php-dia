@@ -50,9 +50,9 @@ class Document implements RenderItem
     protected function formatXml(string $rawXml) : string
     {
         $doc = new DomDocument('1.0');
-        $doc->loadXML($rawXml);
         $doc->preserveWhiteSpace = false;
         $doc->formatOutput = true;
+        $doc->loadXML($rawXml);
 
         return $doc->saveXML();
     }
@@ -62,14 +62,8 @@ class Document implements RenderItem
      */
     protected function getValues() : array
     {
-        $values = [];
-
-        if ($this->diagram) {
-            $values['diagram'] = $this->diagram->render();
-        }
-
         return [
-            'diagram' => $this->diagram->render(),
+            'diagram' => $this->diagram ? $this->diagram->render() : '',
             'layers' => $this->layers
         ];
     }

@@ -45,6 +45,8 @@ class TemplateManager
     protected function createTwigEnvironment() : Twig_Environment
     {
         $loader = new Twig_Loader_Filesystem(static::TEMPLATES_PATH);
-        return new Twig_Environment($loader);
+        return new Twig_Environment($loader, [
+            'autoescape' => false
+        ]);
     }
 }
