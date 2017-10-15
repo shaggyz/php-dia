@@ -71,7 +71,7 @@ class GeometryTest extends TestCase
 
     public function testCalculateElementWith()
     {
-        $element = ClassElement::create('name');
+        $element = ClassElement::create('name', 0);
 
         $attributeProphecy = $this->prophesize(Attribute::class);
         $attributeProphecy->getName()->willReturn('name');

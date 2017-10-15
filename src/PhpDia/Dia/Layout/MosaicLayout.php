@@ -11,9 +11,7 @@ class MosaicLayout extends BaseLayout implements Layout
      */
     protected function layoutElements() : Layer
     {
-
-
-        return $this->layout();
+        return $this->layer;
     }
 
     /**

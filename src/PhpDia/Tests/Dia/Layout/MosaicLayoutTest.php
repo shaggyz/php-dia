@@ -13,11 +13,11 @@ class MosaicLayoutTest extends TestCase
     {
         $elementProphecy1 = $this->prophesize(Element::class);
         $elementProphecy1->getId()->willReturn(0);
-        $elementProphecy1->getWith()->willReturn(10);
+        $elementProphecy1->getWidth()->willReturn(10);
 
         $elementProphecy2 = $this->prophesize(Element::class);
         $elementProphecy1->getId()->willReturn(1);
-        $elementProphecy2->getWith()->willReturn(20);
+        $elementProphecy2->getWidth()->willReturn(20);
 
         $layerProphecy = $this->prophesize(Layer::class);
         $layerProphecy->getElementByid(0)->willReturn($elementProphecy1->reveal());

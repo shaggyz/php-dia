@@ -2,6 +2,7 @@
 
 namespace PhpDia\Dia\Xml;
 
+use PhpDia\Dia\Exception\ElementNotFound;
 use PhpDia\Dia\RenderItem;
 use PhpDia\Dia\TemplateManager;
 
@@ -93,14 +94,31 @@ class Layer implements RenderItem
         return $this;
     }
 
+    /**
+     * @param int $id
+     * @return Element
+     * @throws ElementNotFound
+     */
     public function getElementById(int $id) : Element
     {
+        if (!array_key_exists($id, $this->elements)) {
+            throw new ElementNotFound('Missing element with id: ' . $id);
+        }
 
+        return $this->elements[$id];
     }
 
+    /**
+     * @param int $id
+     * @param Element $element
+     * @return Layer
+     */
     public function updateElement(int $id, Element $element) : Layer
     {
+        $this->getElementById($id);
+        $this->elements[$id] = $element;
 
+        return $this;
     }
 
     /**
@@ -115,6 +133,4 @@ class Layer implements RenderItem
             'elements' => $this->elements
         ];
     }
-
-
 }

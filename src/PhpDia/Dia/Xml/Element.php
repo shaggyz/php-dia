@@ -13,6 +13,9 @@ class Element implements RenderItem
 
     const ELEMENT_TYPE = 'UML - Element';
 
+    /** @var int */
+    protected $id;
+
     /** @var Position */
     protected $position;
 
@@ -72,9 +75,11 @@ class Element implements RenderItem
 
     /**
      * @param string $name
+     * @param int $id
      */
-    private function __construct(string $name)
+    private function __construct(string $name, int $id)
     {
+        $this->setId($id);
         $this->setName($name);
         $this->setPosition(Position::createEmpty());
         $this->setCorner(Position::createEmpty());
@@ -85,11 +90,12 @@ class Element implements RenderItem
 
     /**
      * @param string $name
+     * @param int $id
      * @return Element
      */
-    public static function create(string $name) : Element
+    public static function create(string $name, int $id) : Element
     {
-        return new static($name);
+        return new static($name, $id);
     }
 
     /**
@@ -506,6 +512,24 @@ class Element implements RenderItem
     public function setOperations(array $operations): Element
     {
         $this->operations = $operations;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Element
+     */
+    public function setId(int $id): Element
+    {
+        $this->id = $id;
         return $this;
     }
 }
