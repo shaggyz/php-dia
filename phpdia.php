@@ -10,8 +10,6 @@ use PhpDia\Dia\Xml\ClassElement;
 use PhpDia\Dia\Xml\Attribute;
 use PhpDia\Dia\Xml\Operation;
 use PhpDia\Dia\Xml\Parameter;
-use PhpDia\Dia\Values\BoundingBox;
-use PhpDia\Dia\Values\Position;
 
 $document = new Document();
 $diagram = new Diagram();
@@ -45,6 +43,11 @@ $layer->addElement($yourClass);
 $document->addDiagram($diagram);
 $document->addLayer($layer);
 
-$file = new File('test');
-$file->setDocument($document);
-$file->save('/tmp');
+if ($argc > 1 && $argv[1] == '--save')  {
+    $file = new File('test');
+    $file->setDocument($document);
+    $file->save('/tmp');
+    exit(0);
+}
+
+echo $document->render();

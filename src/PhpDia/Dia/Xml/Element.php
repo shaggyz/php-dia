@@ -13,8 +13,6 @@ class Element implements RenderItem
 
     const ELEMENT_TYPE = 'UML - Element';
 
-    const CHAR_WIDTH = 0.6;
-
     /** @var Position */
     protected $position;
 
@@ -102,7 +100,7 @@ class Element implements RenderItem
         return TemplateManager::create()->render(static::TEMPLATE, $this->getValues());
     }
 
-    public function calculateGeometry()
+    public function calculateGeometry() : Element
     {
         $width = 0;
 
@@ -132,6 +130,8 @@ class Element implements RenderItem
         }
 
         $this->setWidth($width);
+
+        return $this;
     }
 
     /**
