@@ -6,6 +6,7 @@ use PhpDia\Dia\Values\BoundingBox;
 use PhpDia\Dia\Xml\Attribute;
 use PhpDia\Dia\Xml\Element;
 use PhpDia\Dia\Xml\Operation;
+use PhpDia\Dia\Xml\Parameter;
 
 class Geometry
 {
@@ -46,7 +47,13 @@ class Geometry
      */
     public function calculateAttributeWidth(Attribute $attribute) : float
     {
-
+        return $this->calculateStringWidth(
+            sprintf(
+                "#%s: %s",
+                $attribute->getName(),
+                $attribute->getType()
+            )
+        );
     }
 
     /**
@@ -55,7 +62,22 @@ class Geometry
      */
     public function calculateOperationWidth(Operation $operation) : float
     {
+        $parameters = [];
 
+        if ($operation->hasParameters()) {
+            foreach ($operation->getParameters() as $parameter) {
+                $parameters[] = $this->getParameterString($parameter);
+            }
+        }
+
+        return $this->calculateStringWidth(
+            sprintf(
+                "#%s(%s): %s",
+                $operation->getName(),
+                implode(',', $parameters),
+                $operation->getType()
+            )
+        );
     }
 
     /**
@@ -64,6 +86,27 @@ class Geometry
      */
     public function calculateElementWidth(Element $element) : float
     {
+        $width = 0;
 
+        foreach ($element->getAttributes() as $attribute) {
+            $attributeWidth = $this->calculateAttributeWidth($attribute);
+            $width = $attributeWidth > $width ? $attributeWidth : $width;
+        }
+
+        foreach ($element->getOperations() as $operation) {
+            $operationWidth = $this->calculateOperationWidth($operation);
+            $width = $operationWidth > $width ? $operationWidth : $width;
+        }
+
+        return $width;
+    }
+
+    /**
+     * @param Parameter $parameter
+     * @return string
+     */
+    protected function getParameterString(Parameter $parameter) : string
+    {
+        return $parameter->getName() . ':' . $parameter->getType();
     }
 }

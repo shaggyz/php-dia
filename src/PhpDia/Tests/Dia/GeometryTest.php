@@ -49,6 +49,7 @@ class GeometryTest extends TestCase
         $operationProphecy = $this->prophesize(Operation::class);
         $operationProphecy->getName()->willReturn('name');
         $operationProphecy->getType()->willReturn('type');
+        $operationProphecy->hasParameters()->willReturn(true);
 
         $parameterProphecy = $this->prophesize(Parameter::class);
         $parameterProphecy->getName()->willReturn('pName');
@@ -82,6 +83,7 @@ class GeometryTest extends TestCase
         $operationProphecy = $this->prophesize(Operation::class);
         $operationProphecy->getName()->willReturn('name');
         $operationProphecy->getType()->willReturn('type');
+        $operationProphecy->hasParameters()->willReturn(true);
 
         $parameterProphecy = $this->prophesize(Parameter::class);
         $parameterProphecy->getName()->willReturn('pName');
@@ -103,6 +105,4 @@ class GeometryTest extends TestCase
             $this->geometry->calculateElementWidth($element)
         );
     }
-
-
 }

@@ -100,40 +100,6 @@ class Element implements RenderItem
         return TemplateManager::create()->render(static::TEMPLATE, $this->getValues());
     }
 
-    public function calculateGeometry() : Element
-    {
-        $width = 0;
-
-        foreach ($this->attributes as $attribute) {
-            $attributeString = '#' . $attribute->getName() . ': ' . $attribute->getType();
-            $computedWidth = strlen($attributeString) * static::CHAR_WIDTH;
-            if ($computedWidth > $width) {
-                $width = $computedWidth;
-            }
-        }
-
-        foreach ($this->operations as $operation) {
-            $operationString = '#' . $operation->getName() . '(';
-            $parameters = [];
-            foreach ($operation->getParameters() as $parameter) {
-                $parameters[] = $parameter->getName() . ':' . $parameter->getType();
-            }
-            $operationString .= implode(', ', $parameters);
-            $operationString .= '): ';
-
-            $computedWidth = strlen($operationString) * static::CHAR_WIDTH;
-
-            if ($computedWidth > $width) {
-                $width = $computedWidth;
-            }
-
-        }
-
-        $this->setWidth($width);
-
-        return $this;
-    }
-
     /**
      * @return array
      */
@@ -488,6 +454,58 @@ class Element implements RenderItem
     public function setTextColor(string $textColor): Element
     {
         $this->textColor = $textColor;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAttributes() : bool
+    {
+        return count($this->attributes) > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOperations() : bool
+    {
+        return count($this->operations) > 0;
+    }
+
+    /**
+     * @return Attribute[]
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param Attribute[] $attributes
+     * @return Element
+     */
+    public function setAttributes(array $attributes): Element
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
+    /**
+     * @return Operation[]
+     */
+    public function getOperations(): array
+    {
+        return $this->operations;
+    }
+
+    /**
+     * @param Operation[] $operations
+     * @return Element
+     */
+    public function setOperations(array $operations): Element
+    {
+        $this->operations = $operations;
         return $this;
     }
 }
