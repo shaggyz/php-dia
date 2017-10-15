@@ -12,10 +12,14 @@ class LayerTest extends TestCase
     {
         $elementProphecy = $this->prophesize(Element::class);
         $elementProphecy->render()->willReturn('element');
+        $elementProphecy->getId()->willReturn(1);
+
+        /** @var Element $element */
+        $element = $elementProphecy->reveal();
 
         $layer = new Layer();
-        $layer->addElement($elementProphecy->reveal());
-        $layer->addElement($elementProphecy->reveal());
+        $layer->addElement($element);
+        $layer->addElement($element);
 
         $expected = <<<EOL
 <dia:layer name="Background" visible="true" active="true">
@@ -25,5 +29,20 @@ class LayerTest extends TestCase
 EOL;
 
         $this->assertEquals($expected, $layer->render());
+        $this->assertEquals($element, $layer->getElementById(1));
+    }
+
+    public function testUpdateElement()
+    {
+        $element = Element::create('element', 1);
+
+        $layer = new Layer();
+        $layer->addElement($element);
+
+        $element->setName('updatedElement');
+
+        $layer->updateElement(1, $element);
+
+        $this->assertEquals('updatedElement', $layer->getElementById(1)->getName());
     }
 }

@@ -19,7 +19,7 @@ class ElementTest extends TestCase
         $operationProphecy = $this->prophesize(Operation::class);
         $operationProphecy->render()->willReturn('operation');
 
-        $element = ClassElement::create('ClassNico')
+        $element = ClassElement::create('ClassNico', 1)
             ->setPosition(Position::create(1.55, 3.45))
             ->setCorner(Position::create(1.55, 3.45))
             ->setBoundingBox(BoundingBox::create(1.5, 3.4, 14.805, 9.3))
@@ -32,12 +32,13 @@ class ElementTest extends TestCase
             ->setHeight(5.7999999999999);
 
         $this->assertEquals($this->getExpected(), $element->render());
+        $this->assertEquals(1, $element->getId());
     }
 
     public function getExpected() : string
     {
         static $expected = <<<EOL
-<dia:object type="UML - Class" version="0" id="O0">
+<dia:object type="UML - Class" version="0" id="O1">
     <dia:attribute name="obj_pos">
         <dia:point val="1.55,3.45"/>
     </dia:attribute>

@@ -89,8 +89,18 @@ class Layer implements RenderItem
      */
     public function addElement(Element $element): Layer
     {
-        $this->elements[] = $element;
+        $this->elements[$element->getId()] = $element;
         return $this;
+    }
+
+    public function getElementById(int $id) : Element
+    {
+
+    }
+
+    public function updateElement(int $id, Element $element) : Layer
+    {
+
     }
 
     /**
@@ -105,5 +115,6 @@ class Layer implements RenderItem
             'elements' => $this->elements
         ];
     }
+
 
 }
