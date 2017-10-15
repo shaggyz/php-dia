@@ -1,8 +1,10 @@
 <?php
 
-namespace PhpDia\Dia;
+namespace PhpDia\Dia\Xml;
 
 use DOMDocument;
+use PhpDia\Dia\RenderItem;
+use PhpDia\Dia\TemplateManager;
 
 class Document implements RenderItem
 {

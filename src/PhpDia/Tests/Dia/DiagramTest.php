@@ -2,7 +2,7 @@
 
 namespace PhpDia\Tests\Dia;
 
-use PhpDia\Dia\Diagram;
+use PhpDia\Dia\Xml\Diagram;
 use PHPUnit\Framework\TestCase;
 
 class DiagramTest extends TestCase

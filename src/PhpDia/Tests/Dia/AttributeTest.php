@@ -2,7 +2,7 @@
 
 namespace PhpDia\Tests\Dia;
 
-use PhpDia\Dia\Attribute;
+use PhpDia\Dia\Xml\Attribute;
 use PHPUnit\Framework\TestCase;
 
 class AttributeTest extends TestCase

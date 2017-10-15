@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDia\Dia;
+namespace PhpDia\Dia\Xml;
 
 class ClassElement extends Element
 {

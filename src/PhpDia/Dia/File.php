@@ -2,6 +2,8 @@
 
 namespace PhpDia\Dia;
 
+use PhpDia\Dia\Xml\Document;
+
 class File
 {
     /**

@@ -1,7 +1,9 @@
 <?php
 
-namespace PhpDia\Dia;
+namespace PhpDia\Dia\Xml;
 
+use PhpDia\Dia\RenderItem;
+use PhpDia\Dia\TemplateManager;
 use PhpDia\Dia\Values\BoundingBox;
 use PhpDia\Dia\Values\Position;
 
@@ -97,11 +99,10 @@ class Element implements RenderItem
      */
     public function render(): string
     {
-        $this->calculateGeometry();
         return TemplateManager::create()->render(static::TEMPLATE, $this->getValues());
     }
 
-    protected function calculateGeometry()
+    public function calculateGeometry()
     {
         $width = 0;
 

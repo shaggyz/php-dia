@@ -2,7 +2,7 @@
 
 namespace PhpDia\Tests\Dia;
 
-use PhpDia\Dia\Document;
+use PhpDia\Dia\Xml\Document;
 use PhpDia\Dia\File;
 use PHPUnit\Framework\TestCase;
 

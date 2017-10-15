@@ -14,7 +14,7 @@ class PhpParser
 
         //https://github.com/nikic/PHP-Parser
 
-        return false;
+        return true;
     }
 
     protected function tokenize(string $contents)

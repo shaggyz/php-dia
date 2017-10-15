@@ -2,9 +2,9 @@
 
 namespace PhpDia\Tests\Dia;
 
-use PhpDia\Dia\Diagram;
-use PhpDia\Dia\Document;
-use PhpDia\Dia\Layer;
+use PhpDia\Dia\Xml\Diagram;
+use PhpDia\Dia\Xml\Document;
+use PhpDia\Dia\Xml\Layer;
 use PHPUnit\Framework\TestCase;
 
 class DocumentTest extends TestCase

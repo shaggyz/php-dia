@@ -1,6 +1,9 @@
 <?php
 
-namespace PhpDia\Dia;
+namespace PhpDia\Dia\Xml;
+
+use PhpDia\Dia\RenderItem;
+use PhpDia\Dia\TemplateManager;
 
 class Operation implements RenderItem
 {

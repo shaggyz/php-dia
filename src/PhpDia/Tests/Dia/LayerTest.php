@@ -2,8 +2,8 @@
 
 namespace PhpDia\Tests\Dia;
 
-use PhpDia\Dia\Element;
-use PhpDia\Dia\Layer;
+use PhpDia\Dia\Xml\Element;
+use PhpDia\Dia\Xml\Layer;
 use PHPUnit\Framework\TestCase;
 
 class LayerTest extends TestCase

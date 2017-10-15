@@ -2,7 +2,7 @@
 
 namespace Dia;
 
-use PhpDia\Dia\Parameter;
+use PhpDia\Dia\Xml\Parameter;
 use PHPUnit\Framework\TestCase;
 
 class ParameterTest extends TestCase

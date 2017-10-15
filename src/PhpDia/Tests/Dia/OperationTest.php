@@ -2,9 +2,9 @@
 
 namespace PhpDia\Tests\Dia;
 
-use PhpDia\Dia\Attribute;
-use PhpDia\Dia\Operation;
-use PhpDia\Dia\Parameter;
+use PhpDia\Dia\Xml\Attribute;
+use PhpDia\Dia\Xml\Operation;
+use PhpDia\Dia\Xml\Parameter;
 use PHPUnit\Framework\TestCase;
 
 class OperationTest extends TestCase

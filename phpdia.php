@@ -3,13 +3,13 @@
 include_once __DIR__ . '/vendor/autoload.php';
 
 use PhpDia\Dia\File;
-use PhpDia\Dia\Document;
-use PhpDia\Dia\Diagram;
-use PhpDia\Dia\Layer;
-use PhpDia\Dia\ClassElement;
-use PhpDia\Dia\Attribute;
-use PhpDia\Dia\Operation;
-use PhpDia\Dia\Parameter;
+use PhpDia\Dia\Xml\Document;
+use PhpDia\Dia\Xml\Diagram;
+use PhpDia\Dia\Xml\Layer;
+use PhpDia\Dia\Xml\ClassElement;
+use PhpDia\Dia\Xml\Attribute;
+use PhpDia\Dia\Xml\Operation;
+use PhpDia\Dia\Xml\Parameter;
 use PhpDia\Dia\Values\BoundingBox;
 use PhpDia\Dia\Values\Position;
 
@@ -23,7 +23,8 @@ $myClass = ClassElement::create('MyClass')
     ->addOperation(
         Operation::create('setName')
             ->addParameter(Parameter::create('name', 'string'))
-    );
+    )
+    ->calculateGeometry();
 
 $yourClass = ClassElement::create('YourClass')
     ->addAttribute(Attribute::create('title', 'string'))
@@ -35,7 +36,8 @@ $yourClass = ClassElement::create('YourClass')
     ->addOperation(
         Operation::create('isActive', 'bool')
             ->setVisibility(Attribute::VISIBILITY_PROTECTED)
-    );
+    )
+    ->calculateGeometry();
 
 $layer->addElement($myClass);
 $layer->addElement($yourClass);
