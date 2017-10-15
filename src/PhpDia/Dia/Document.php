@@ -2,6 +2,8 @@
 
 namespace PhpDia\Dia;
 
+use DOMDocument;
+
 class Document implements RenderItem
 {
     const TEMPLATE = 'document';
@@ -41,7 +43,22 @@ class Document implements RenderItem
      */
     public function render(): string
     {
-        return TemplateManager::create()->render(static::TEMPLATE, $this->getValues());
+        $rawXml = TemplateManager::create()->render(static::TEMPLATE, $this->getValues());
+        return $this->formatXml($rawXml);
+    }
+
+    /**
+     * @param string $rawXml
+     * @return string
+     */
+    protected function formatXml(string $rawXml) : string
+    {
+        $doc = new DomDocument('1.0');
+        $doc->loadXML($rawXml);
+        $doc->preserveWhiteSpace = false;
+        $doc->formatOutput = true;
+
+        return $doc->saveXML();
     }
 
     /**

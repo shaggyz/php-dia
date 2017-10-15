@@ -29,6 +29,7 @@ class DocumentTest extends TestCase
     layers
     layers
 </dia:diagram>
+
 EOL;
 
         $this->assertEquals($expected, $document->render());
