@@ -29,9 +29,14 @@ class File
         $this->extension = $extension;
     }
 
-    public function create()
+    /**
+     * @param Document $document
+     * @return File
+     */
+    public function setDocument(Document $document) : File
     {
-        $this->createDocument();
+        $this->contents = $document->render();
+        return $this;
     }
 
     /**
@@ -80,10 +85,5 @@ class File
     protected function compress(string $contents) : string
     {
         return $contents;
-    }
-
-    protected function createDocument()
-    {
-        $this->contents = 'nico';
     }
 }
