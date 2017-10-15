@@ -2,6 +2,7 @@
 
 namespace PhpDia\Tests\Dia;
 
+use PhpDia\Dia\Exception\ElementNotFound;
 use PhpDia\Dia\Xml\Element;
 use PhpDia\Dia\Xml\Layer;
 use PHPUnit\Framework\TestCase;
@@ -44,5 +45,15 @@ EOL;
         $layer->updateElement(1, $element);
 
         $this->assertEquals('updatedElement', $layer->getElementById(1)->getName());
+    }
+
+    /**
+     * @expectedException ElementNotFound
+     */
+    public function testMissingElement()
+    {
+        $layer = new Layer();
+
+        $layer->getElementById(9999);
     }
 }
