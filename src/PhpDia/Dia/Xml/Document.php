@@ -3,6 +3,8 @@
 namespace PhpDia\Dia\Xml;
 
 use DOMDocument;
+use PhpDia\Dia\Exception\UnknownLayoutType;
+use PhpDia\Dia\Layout\MosaicLayout;
 use PhpDia\Dia\RenderItem;
 use PhpDia\Dia\TemplateManager;
 
@@ -68,5 +70,22 @@ class Document implements RenderItem
             'diagram' => $this->diagram ? $this->diagram->render() : '',
             'layers' => $this->layers
         ];
+    }
+
+    public function applyLayout(int $layoutType)
+    {
+        switch ($layoutType) {
+            case MosaicLayout::LAYOUT_TYPE:
+                $layers = [];
+                foreach ($this->layers as $layer) {
+                    $layout = MosaicLayout::create($layer);
+                    $layers[] = $layout->layout();
+                }
+                $this->layers = $layers;
+                break;
+            default:
+                throw new UnknownLayoutType("Unknown layout type: $layoutType");
+                break;
+        }
     }
 }

@@ -15,16 +15,15 @@ $document = new Document();
 $diagram = new Diagram();
 $layer = new Layer();
 
-$myClass = ClassElement::create('MyClass')
+$myClass = ClassElement::create('MyClass', 0)
     ->addAttribute(Attribute::create('name', 'string'))
     ->addOperation(Operation::create('getName', 'string'))
     ->addOperation(
         Operation::create('setName')
             ->addParameter(Parameter::create('name', 'string'))
-    )
-    ->calculateGeometry();
+    );
 
-$yourClass = ClassElement::create('YourClass')
+$yourClass = ClassElement::create('YourClass', 2)
     ->addAttribute(Attribute::create('title', 'string'))
     ->addOperation(Operation::create('getTitle', 'string'))
     ->addOperation(
@@ -34,16 +33,16 @@ $yourClass = ClassElement::create('YourClass')
     ->addOperation(
         Operation::create('isActive', 'bool')
             ->setVisibility(Attribute::VISIBILITY_PROTECTED)
-    )
-    ->calculateGeometry();
+    );
 
 $layer->addElement($myClass);
 $layer->addElement($yourClass);
 
 $document->addDiagram($diagram);
 $document->addLayer($layer);
+$document->applyLayout(\PhpDia\Dia\Layout\MosaicLayout::LAYOUT_TYPE);
 
-if ($argc > 1 && $argv[1] == '--save')  {
+if ($argc > 1 && $argv[1] == '--save') {
     $file = new File('test');
     $file->setDocument($document);
     $file->save('/tmp');

@@ -7,6 +7,8 @@ use PhpDia\Dia\Xml\Layer;
 
 class MosaicLayout extends BaseLayout implements Layout
 {
+    const LAYOUT_TYPE = 0;
+
     /**
      * @return Layer
      */
