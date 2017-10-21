@@ -19,7 +19,7 @@ class AttributeTest extends TestCase
         $this->assertEquals(static::$expectedPublic, $attribute->render());
     }
 
-    static $expectedPublic = <<<EOL
+    private static $expectedPublic = <<<EOL
 <dia:composite type="umlattribute">
     <dia:attribute name="name">
         <dia:string>#publicVar#</dia:string>
@@ -44,5 +44,4 @@ class AttributeTest extends TestCase
     </dia:attribute>
 </dia:composite>
 EOL;
-
 }

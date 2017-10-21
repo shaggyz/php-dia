@@ -131,11 +131,10 @@ class Element implements RenderItem
             'textColor' => $this->getTextColor(),
             'attributes' => $this->attributes,
             'operations' => $this->operations,
-            'elementType' => static::ELEMENT_TYPE
+            'elementType' => static::ELEMENT_TYPE,
+            'id' => $this->getId(),
         ];
     }
-
-
 
     /**
      * @param Attribute $attribute

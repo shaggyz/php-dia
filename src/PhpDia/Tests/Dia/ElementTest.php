@@ -154,6 +154,7 @@ class ElementTest extends TestCase
     </dia:attribute>
     <dia:attribute name="templates"/>
 </dia:object>
+
 EOL;
         return $expected;
     }

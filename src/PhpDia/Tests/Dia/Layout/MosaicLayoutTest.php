@@ -11,20 +11,12 @@ class MosaicLayoutTest extends TestCase
 {
     public function testMosaicLayout()
     {
-        $elementProphecy1 = $this->prophesize(Element::class);
-        $elementProphecy1->getId()->willReturn(0);
-        $elementProphecy1->getWidth()->willReturn(10);
+        $element1 = Element::create('element1', 0)->setWidth(10);
+        $element2 = Element::create('element2', 1)->setWidth(20);
 
-        $elementProphecy2 = $this->prophesize(Element::class);
-        $elementProphecy1->getId()->willReturn(1);
-        $elementProphecy2->getWidth()->willReturn(20);
-
-        $layerProphecy = $this->prophesize(Layer::class);
-        $layerProphecy->getElementByid(0)->willReturn($elementProphecy1->reveal());
-        $layerProphecy->getElementByid(1)->willReturn($elementProphecy2->reveal());
-
-        /** @var Layer $layer */
-        $layer = $layerProphecy->reveal();
+        $layer = new Layer();
+        $layer->addElement($element1)
+            ->addElement($element2);
 
         $layout = MosaicLayout::create($layer);
         $layoutLayer = $layout->layout();

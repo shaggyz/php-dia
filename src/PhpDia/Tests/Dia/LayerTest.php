@@ -14,12 +14,17 @@ class LayerTest extends TestCase
         $elementProphecy->render()->willReturn('element');
         $elementProphecy->getId()->willReturn(1);
 
+        $element2Prophecy = $this->prophesize(Element::class);
+        $element2Prophecy->render()->willReturn('element');
+        $element2Prophecy->getId()->willReturn(2);
+
         /** @var Element $element */
         $element = $elementProphecy->reveal();
+        $element2 = $element2Prophecy->reveal();
 
         $layer = new Layer();
         $layer->addElement($element);
-        $layer->addElement($element);
+        $layer->addElement($element2);
 
         $expected = <<<EOL
 <dia:layer name="Background" visible="true" active="true">
