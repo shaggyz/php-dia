@@ -122,6 +122,22 @@ class Layer implements RenderItem
     }
 
     /**
+     * @return bool
+     */
+    public function hasElements() : bool
+    {
+        return $this->getElementsCount() > 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getElements() : array
+    {
+        return $this->elements;
+    }
+
+    /**
      * @return array
      */
     protected function getValues() : array

@@ -9,6 +9,8 @@ abstract class BaseLayout implements Layout
     /** @var Layer */
     protected $layer;
 
+    const OBJECT_SPACE_WIDTH = 1;
+
     /**
      * @param Layer $layer
      */
