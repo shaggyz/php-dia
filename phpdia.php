@@ -1,8 +1,9 @@
+#!/usr/bin/env php
 <?php
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-use PhpDia\Dia\File;
+/*use PhpDia\Dia\File;
 use PhpDia\Dia\Xml\Document;
 use PhpDia\Dia\Xml\Diagram;
 use PhpDia\Dia\Xml\Layer;
@@ -49,4 +50,6 @@ if ($argc > 1 && $argv[1] == '--save') {
     exit(0);
 }
 
-echo $document->render();
+echo $document->render();*/
+
+\PhpDia\Application\PhpDia::bootstrap($argv);

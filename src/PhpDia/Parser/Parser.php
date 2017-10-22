@@ -3,7 +3,6 @@
 namespace PhpDia\Parser;
 
 use PhpParser\Error;
-use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
 
 class Parser
