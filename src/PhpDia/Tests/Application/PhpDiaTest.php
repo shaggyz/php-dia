@@ -6,5 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 class PhpDiaTest extends TestCase
 {
-
+    public function testApplicationInstance()
+    {
+        $this->assertTrue(true);
+    }
 }
