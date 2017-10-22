@@ -10,7 +10,7 @@ use PhpDia\Dia\Xml\Parameter;
 
 class Geometry
 {
-    const CHAR_WIDTH = 0.6;
+    const CHAR_WIDTH = 0.4;
     const DEFAULT_MARGIN_RIGHT = 1;
     const DEFAULT_MARGIN_BOTTOM = 1;
 

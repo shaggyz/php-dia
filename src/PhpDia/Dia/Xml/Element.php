@@ -2,6 +2,7 @@
 
 namespace PhpDia\Dia\Xml;
 
+use PhpDia\Dia\Geometry;
 use PhpDia\Dia\RenderItem;
 use PhpDia\Dia\TemplateManager;
 use PhpDia\Dia\Values\BoundingBox;
@@ -115,7 +116,7 @@ class Element implements RenderItem
             'position' => $this->position,
             'boundingBox' => $this->boundingBox,
             'corner' => $this->getCorner(),
-            'width' => $this->getWidth(),
+            'width' => $this->getWidth() ?: Geometry::initialize()->calculateElementWidth($this),
             'height' => $this->getHeight(),
             'name' => $this->getName(),
             'comment' => $this->getComment(),

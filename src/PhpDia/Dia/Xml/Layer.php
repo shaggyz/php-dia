@@ -126,7 +126,7 @@ class Layer implements RenderItem
      */
     public function hasElements() : bool
     {
-        return $this->getElementsCount() > 0;
+        return count($this->elements) > 0;
     }
 
     /**
