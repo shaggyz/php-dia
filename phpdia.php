@@ -45,7 +45,7 @@ $document->applyLayout(\PhpDia\Dia\Layout\MosaicLayout::LAYOUT_TYPE);
 if ($argc > 1 && $argv[1] == '--save') {
     $file = new File('test');
     $file->setDocument($document);
-    $file->save('/tmp');
+    $file->save(__DIR__);
     exit(0);
 }
 
