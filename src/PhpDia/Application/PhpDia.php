@@ -29,6 +29,14 @@ class PhpDia
     }
 
     /**
+     * @return static
+     */
+    public static function bootstrap()
+    {
+        return new static();
+    }
+
+    /**
      * @return string
      */
     protected function processInput() : string
@@ -49,28 +57,24 @@ class PhpDia
     }
 
     /**
-     * @return static
-     */
-    public static function bootstrap()
-    {
-        return new static();
-    }
-
-    /**
      * @return Arguments
      */
     protected function parseArguments() : Arguments
     {
         $arguments = new Arguments();
 
-        $arguments->addFlag(['verbose', 'v'], 'Turn on verbose output');
+        // $arguments->addFlag(['verbose', 'v'], 'Turn on verbose output');
         $arguments->addFlag('version', 'Display the version');
         $arguments->addFlag(['help', 'h'], 'Show this help screen');
+
+        $arguments->addOption(['source', 's'], [
+            'description' => 'Set the source code directory or file to parse. '
+        ]);
 
         $arguments->parse();
 
         if ($this->arguments['help']) {
-            echo $arguments->getHelpScreen();
+            \cli\line($arguments->getHelpScreen());
             exit(0);
         }
 
