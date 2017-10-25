@@ -9,11 +9,6 @@ class File
     /**
      * @var string
      */
-    protected $fileName;
-
-    /**
-     * @var string
-     */
     protected $extension;
 
     /**

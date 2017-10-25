@@ -45,7 +45,16 @@ class PhpDia
             return $this->getShowVersion();
         }
 
-        return $this->arguments->getHelpScreen();
+        if ($this->arguments['help']) {
+            return $this->getShowVersion();
+        }
+
+        $this->startProgram(
+            $this->arguments['output'],
+            $this->arguments['source']
+        );
+
+        return 'End.';
     }
 
     /**
@@ -57,26 +66,46 @@ class PhpDia
     }
 
     /**
+     * @param string $output
+     * @param string $source
+     * @return bool
+     */
+    protected function startProgram(string $output, string $source) : bool
+    {
+        $generator = new Generator($output, $source);
+
+        if ($this->arguments['exclude']) {
+            $generator->setExcluded(explode(',', $this->arguments['exclude']));
+        }
+
+        $generator->generate();
+        return true;
+    }
+
+    /**
      * @return Arguments
      */
     protected function parseArguments() : Arguments
     {
         $arguments = new Arguments();
-
-        // $arguments->addFlag(['verbose', 'v'], 'Turn on verbose output');
         $arguments->addFlag('version', 'Display the version');
         $arguments->addFlag(['help', 'h'], 'Show this help screen');
 
         $arguments->addOption(['source', 's'], [
-            'description' => 'Set the source code directory or file to parse. '
+            'description' => 'Set the source code directory or file to parse. ',
+            'default' => '.'
+        ]);
+
+        $arguments->addOption(['exclude', 'e'], [
+            'description' => 'List of directories to exclude',
+        ]);
+
+        $arguments->addOption(['output', 'o'], [
+            'description' => 'Output file name. ',
+            'default' => 'diagram'
         ]);
 
         $arguments->parse();
-
-        if ($this->arguments['help']) {
-            \cli\line($arguments->getHelpScreen());
-            exit(0);
-        }
 
         return $arguments;
     }

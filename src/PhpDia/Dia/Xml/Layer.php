@@ -2,6 +2,7 @@
 
 namespace PhpDia\Dia\Xml;
 
+use PhpDia\Dia\Exception\DuplicatedElementIdentifierException;
 use PhpDia\Dia\Exception\ElementNotFound;
 use PhpDia\Dia\RenderItem;
 use PhpDia\Dia\TemplateManager;
@@ -87,10 +88,28 @@ class Layer implements RenderItem
     /**
      * @param Element $element
      * @return Layer
+     * @throws DuplicatedElementIdentifierException
      */
     public function addElement(Element $element): Layer
     {
+        if (array_key_exists($element->getId(), $this->elements)) {
+            throw new DuplicatedElementIdentifierException(
+                sprintf("There is already an element with the id %s", $element->getId())
+            );
+        }
         $this->elements[$element->getId()] = $element;
+        return $this;
+    }
+
+    /**
+     * @param array $elements
+     * @return Layer
+     */
+    public function addElements(array $elements) : Layer
+    {
+        foreach ($elements as $element) {
+            $this->addElement($element);
+        }
         return $this;
     }
 

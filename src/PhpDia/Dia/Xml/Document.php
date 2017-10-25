@@ -72,6 +72,10 @@ class Document implements RenderItem
         ];
     }
 
+    /**
+     * @param int $layoutType
+     * @throws UnknownLayoutType
+     */
     public function applyLayout(int $layoutType)
     {
         switch ($layoutType) {
