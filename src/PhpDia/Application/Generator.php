@@ -6,6 +6,7 @@ use PhpDia\Application\Exception\EmptyFileListException;
 use PhpDia\Application\Exception\MissingSourceFileException;
 use PhpDia\Dia\File;
 use PhpDia\Dia\Layout\MosaicLayout;
+use PhpDia\Dia\Xml\Attribute;
 use PhpDia\Dia\Xml\ClassElement;
 use PhpDia\Dia\Xml\Diagram;
 use PhpDia\Dia\Xml\Document;
@@ -43,6 +44,9 @@ class Generator
         $this->sourcePath = $sourcePath;
     }
 
+    /**
+     * @throws EmptyFileListException
+     */
     public function generate()
     {
         $files = $this->getFileList();
@@ -85,6 +89,9 @@ class Generator
                     case "PhpParser\Node\Stmt\Class_":
                         $elements[] = $this->processElement($stmt);
                         break;
+                    case "PhpParser\Node\Stmt\Interface_":
+                        continue;
+                        break;
                     case "PhpParser\Node\Stmt\Use_":
                         continue;
                         break;
@@ -118,6 +125,7 @@ class Generator
                     break;
                 case "PhpParser\Node\Stmt\Property":
                     /** @var Property $classStmt */
+                    $classElement->addAttribute($this->processProperty($classStmt));
                     break;
                 default:
                     echo "Error: unknown class smt type: " . get_class($classStmt) . "\n";
@@ -138,6 +146,13 @@ class Generator
         if ($classMethod->returnType) {
             $operation->setType($classMethod->returnType);
         }
+
+        if ($classMethod->isPrivate()) {
+            $operation->setVisibility(Attribute::VISIBILITY_PRIVATE);
+        } elseif ($classMethod->isProtected()) {
+            $operation->setVisibility(Attribute::VISIBILITY_PROTECTED);
+        }
+
         if (count($classMethod->params)) {
             foreach ($classMethod->params as $param) {
                 $type = isset($param->type->parts) ? implode($param->type->parts) : 'mixed';
@@ -146,6 +161,24 @@ class Generator
             }
         }
         return $operation;
+    }
+
+    /**
+     * @param Property $property
+     * @return Attribute
+     */
+    protected function processProperty(Property $property) : Attribute
+    {
+        $propertyName = $property->props[0]->name->name;
+        $attribute = Attribute::create($propertyName, 'mixed');
+
+        if ($property->isProtected()) {
+            $attribute->setVisibility(Attribute::VISIBILITY_PROTECTED);
+        } elseif ($property->isPrivate()) {
+            $attribute->setVisibility(Attribute::VISIBILITY_PRIVATE);
+        }
+
+        return $attribute;
     }
 
    /**
@@ -159,10 +192,8 @@ class Generator
             );
         }
 
-        if (!is_dir($this->sourcePath) && file_exists($this->sourcePath)) {
-            return [
-                $this->sourcePath
-            ];
+        if (!is_dir($this->sourcePath)) {
+            return [$this->sourcePath];
         }
 
         $directory = new \RecursiveDirectoryIterator($this->sourcePath);
@@ -171,11 +202,9 @@ class Generator
 
         $files = [];
         foreach ($regex as $file) {
-            $filePath = $file[0];
-            if ($this->isFilePathExcluded($filePath)) {
-                continue;
+            if (!$this->isFilePathExcluded($file[0])) {
+                $files[] = $file[0];
             }
-            $files[] = $filePath;
         }
 
         return $files;
