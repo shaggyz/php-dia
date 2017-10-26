@@ -21,6 +21,19 @@
         "wp-cli/php-cli-tools": "^0.11.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^6.4",
+        "macfja/phar-builder": "^0.2.6"
+    },
+    "extra": {
+        "phar-builder": {
+            "compression": "GZip",
+            "name": "phpdia.phar",
+            "output-dir": "build/",
+            "entry-point": "phpdia.php",
+            "include": ["src"],
+            "include-dev": false,
+            "skip-shebang": false
+        }
     }
+
 }

@@ -46,7 +46,7 @@ class PhpDia
         }
 
         if ($this->arguments['help']) {
-            return $this->getShowVersion();
+            return $this->getShowHelp();
         }
 
         $this->startProgram(
@@ -55,6 +55,16 @@ class PhpDia
         );
 
         return 'End.';
+    }
+
+    private function getShowHelp() : string
+    {
+        return "PhPDia "
+            . $this->getShowVersion()
+            . PHP_EOL
+            . "Creates GNU/Dia UML diagrams from PHP source code"
+            . PHP_EOL . PHP_EOL
+            . $this->arguments->getHelpScreen();
     }
 
     /**

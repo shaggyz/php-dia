@@ -5,3 +5,4 @@ old
 /diagrams/
 /vendor/
 test.dia
+build/*

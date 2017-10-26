@@ -95,6 +95,9 @@ class Generator
         $elements = [];
 
         foreach ($ast as $meta) {
+            if (!isset($meta->stmts)) {
+                continue;
+            }
             foreach ($meta->stmts as $stmt) {
                 switch (get_class($stmt)) {
                     case "PhpParser\Node\Stmt\Class_":
