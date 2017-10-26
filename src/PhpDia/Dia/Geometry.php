@@ -13,6 +13,8 @@ class Geometry
     const CHAR_WIDTH = 0.4;
     const DEFAULT_MARGIN_RIGHT = 1;
     const DEFAULT_MARGIN_BOTTOM = 1;
+    /** Estimated box padding */
+    const BOX_PADDING = 3;
 
     /** @var BoundingBox */
     protected $margins;
@@ -86,7 +88,7 @@ class Geometry
      */
     public function calculateElementWidth(Element $element) : float
     {
-        $width = 0;
+        $width = $this->calculateStringWidth($element->getName()) + static::BOX_PADDING;
 
         foreach ($element->getAttributes() as $attribute) {
             $attributeWidth = $this->calculateAttributeWidth($attribute);

@@ -78,6 +78,10 @@ class PhpDia
             $generator->setExcluded(explode(',', $this->arguments['exclude']));
         }
 
+        if ($this->arguments->isFlag('raw')) {
+            $generator->setCompress(false);
+        }
+
         $generator->generate();
         return true;
     }
@@ -90,6 +94,7 @@ class PhpDia
         $arguments = new Arguments();
         $arguments->addFlag('version', 'Display the version');
         $arguments->addFlag(['help', 'h'], 'Show this help screen');
+        $arguments->addFlag(['raw', 'h'], 'Disable file compression');
 
         $arguments->addOption(['source', 's'], [
             'description' => 'Set the source code directory or file to parse. ',
@@ -101,7 +106,7 @@ class PhpDia
         ]);
 
         $arguments->addOption(['output', 'o'], [
-            'description' => 'Output file name. ',
+            'description' => 'Output file name.',
             'default' => 'diagram'
         ]);
 

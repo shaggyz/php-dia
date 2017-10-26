@@ -15,12 +15,14 @@ class MosaicLayout extends BaseLayout implements Layout
      */
     protected function layoutElements() : Layer
     {
+        $leftPadding = 0;
         $lastElementWidth = 0;
 
         foreach ($this->layer->getElements() as $id => $element) {
             /** @var Element $element */
             $space = $lastElementWidth ? static::OBJECT_SPACE_WIDTH : 0;
-            $this->layer->updateElement($id, $this->updateCornerX($element, $lastElementWidth + $space));
+            $leftPadding  += $lastElementWidth + $space;
+            $this->layer->updateElement($id, $this->updateCornerX($element, $leftPadding));
             $lastElementWidth = $element->getWidth();
         }
 
@@ -37,7 +39,10 @@ class MosaicLayout extends BaseLayout implements Layout
         $element->setWidth(Geometry::initialize()->calculateElementWidth($element));
         $corner = $element->getCorner();
         $corner->setX($cornerX);
+        $position = $element->getPosition();
+        $position->setX($cornerX);
         $element->setCorner($corner);
+        $element->setPosition($position);
         return $element;
     }
 

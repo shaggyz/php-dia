@@ -37,11 +37,22 @@ class Generator
     /** @var int */
     protected $objectIdentifier = -1;
 
+    /** @var bool */
+    protected $compress = true;
+
     public function __construct(string $fileName, string $sourcePath)
     {
         $this->parser = new Parser();
         $this->file = new File($fileName);
         $this->sourcePath = $sourcePath;
+    }
+
+    /**
+     * @param bool $compress
+     */
+    public function setCompress(bool $compress)
+    {
+        $this->compress = $compress;
     }
 
     /**
@@ -72,7 +83,7 @@ class Generator
         $document->applyLayout(MosaicLayout::LAYOUT_TYPE);
 
         $this->file->setDocument($document);
-        $this->file->save(__DIR__ . "/../../../");
+        $this->file->save(__DIR__ . "/../../../", $this->compress);
     }
 
     /**
