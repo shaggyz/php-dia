@@ -16,32 +16,8 @@ class AttributeTest extends TestCase
             ->setAbstract(true)
             ->setClassScope(true);
 
-        $this->assertEquals(static::$expectedPublic, $attribute->render());
-    }
+        $expected = file_get_contents(__DIR__ . '/stubs/attribute.stub.xml');
 
-    private static $expectedPublic = <<<EOL
-<dia:composite type="umlattribute">
-    <dia:attribute name="name">
-        <dia:string>#publicVar#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="type">
-        <dia:string>#int#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="value">
-        <dia:string>#5#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="comment">
-        <dia:string>#Public int#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="visibility">
-        <dia:enum val="0"/>
-    </dia:attribute>
-    <dia:attribute name="abstract">
-        <dia:boolean val="true"/>
-    </dia:attribute>
-    <dia:attribute name="class_scope">
-        <dia:boolean val="true"/>
-    </dia:attribute>
-</dia:composite>
-EOL;
+        $this->assertEquals($expected, $attribute->render());
+    }
 }

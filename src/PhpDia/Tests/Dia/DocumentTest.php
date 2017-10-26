@@ -22,16 +22,7 @@ class DocumentTest extends TestCase
             ->addLayer($layerProphecy->reveal())
             ->addLayer($layerProphecy->reveal());
 
-        $expected = <<<EOL
-<?xml version="1.0" encoding="UTF-8"?>
-<dia:diagram xmlns:dia="http://www.lysator.liu.se/~alla/dia/">
-    diagram
-    layers
-    layers
-</dia:diagram>
-
-EOL;
-
+        $expected = file_get_contents(__DIR__ . '/stubs/document.stub.xml');
         $this->assertEquals($expected, $document->render());
     }
 }

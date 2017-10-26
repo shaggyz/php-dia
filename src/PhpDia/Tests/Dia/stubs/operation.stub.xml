@@ -1,34 +1,33 @@
 <dia:composite type="umloperation">
     <dia:attribute name="name">
-        <dia:string>#{{ name }}#</dia:string>
+        <dia:string>#setPublic#</dia:string>
     </dia:attribute>
     <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
     </dia:attribute>
     <dia:attribute name="type">
-        <dia:string>#{{ type }}#</dia:string>
+        <dia:string>#string#</dia:string>
     </dia:attribute>
     <dia:attribute name="visibility">
-        <dia:enum val="{{ visibility }}"/>
+        <dia:enum val="1"/>
     </dia:attribute>
     <dia:attribute name="comment">
-        <dia:string>#{{ comment }}#</dia:string>
+        <dia:string>#Comment Test#</dia:string>
     </dia:attribute>
     <dia:attribute name="abstract">
-        <dia:boolean val="{{ abstract }}"/>
+        <dia:boolean val="true"/>
     </dia:attribute>
     <dia:attribute name="inheritance_type">
-        <dia:enum val="{{ inheritance }}"/>
+        <dia:enum val="2"/>
     </dia:attribute>
     <dia:attribute name="query">
-        <dia:boolean val="{{ query }}"/>
+        <dia:boolean val="true"/>
     </dia:attribute>
     <dia:attribute name="class_scope">
-        <dia:boolean val="{{ classScope }}"/>
+        <dia:boolean val="true"/>
     </dia:attribute>
     <dia:attribute name="parameters">
-    {% for parameter in parameters %}
-    {{ parameter.render() }}
-    {% endfor %}
-</dia:attribute>
+        parameter
+        parameter
+    </dia:attribute>
 </dia:composite>

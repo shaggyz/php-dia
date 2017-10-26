@@ -13,27 +13,7 @@ class ParameterTest extends TestCase
             ->setValue('nico')
             ->setComment('Comment');
 
-        $this->assertEquals(static::$expectedParameter, $parameter->render());
+        $expected = file_get_contents(__DIR__ . '/stubs/parameter.stub.xml');
+        $this->assertEquals($expected, $parameter->render());
     }
-
-    static $expectedParameter = <<<EOL
-<dia:composite type="umlparameter">
-    <dia:attribute name="name">
-        <dia:string>#name#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="type">
-        <dia:string>#string#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="value">
-        <dia:string>#nico#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="comment">
-        <dia:string>#Comment#</dia:string>
-    </dia:attribute>
-    <dia:attribute name="kind">
-        <dia:enum val="0"/>
-    </dia:attribute>
-</dia:composite>
-EOL;
-
 }
