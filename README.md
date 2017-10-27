@@ -6,9 +6,12 @@ Simple PHP Application used to parse php source code files and generate GNU-Dia 
 
 + php 7.1.x (It will run with 7.x in the future)
 
-## Installation (TBD)
+## Installation 
 
-```make install```
+```
+    make
+    sudo make install
+```
 
 ## Testing
 
@@ -16,4 +19,4 @@ Simple PHP Application used to parse php source code files and generate GNU-Dia 
 
 ## Usage: 
 
-```phpdia [source_code_dir]```
+```phpdia --help```
