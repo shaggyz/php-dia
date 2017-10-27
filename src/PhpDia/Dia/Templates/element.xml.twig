@@ -1,0 +1,118 @@
+<dia:object type="{{ elementType }}" version="0" id="O{{ id }}">
+    <dia:attribute name="obj_pos">
+        <dia:point val="{{ position }}"/>
+    </dia:attribute>
+    <dia:attribute name="obj_bb">
+        <dia:rectangle val="{{ boundingBox }}"/>
+    </dia:attribute>
+    <dia:attribute name="elem_corner">
+        <dia:point val="{{ corner }}"/>
+    </dia:attribute>
+    <dia:attribute name="elem_width">
+        <dia:real val="{{ width }}"/>
+    </dia:attribute>
+    <dia:attribute name="elem_height">
+        <dia:real val="{{ height }}"/>
+    </dia:attribute>
+    <dia:attribute name="name">
+        <dia:string>#{{ name }}#</dia:string>
+    </dia:attribute>
+    <dia:attribute name="stereotype">
+        <dia:string>##</dia:string>
+    </dia:attribute>
+    <dia:attribute name="comment">
+        <dia:string>#{{ comment }}#</dia:string>
+    </dia:attribute>
+    <dia:attribute name="abstract">
+        <dia:boolean val="{{ abstract }}"/>
+    </dia:attribute>
+    <dia:attribute name="suppress_attributes">
+        <dia:boolean val="{{ suppressAttributes }}"/>
+    </dia:attribute>
+    <dia:attribute name="suppress_operations">
+        <dia:boolean val="{{ suppressOperations }}"/>
+    </dia:attribute>
+    <dia:attribute name="visible_attributes">
+        <dia:boolean val="{{ visibleAttributes }}"/>
+    </dia:attribute>
+    <dia:attribute name="visible_operations">
+        <dia:boolean val="{{ visibleOperations }}"/>
+    </dia:attribute>
+    <dia:attribute name="visible_comments">
+        <dia:boolean val="{{ visibleComments }}"/>
+    </dia:attribute>
+    <dia:attribute name="wrap_operations">
+        <dia:boolean val="{{ wrapOperations }}"/>
+    </dia:attribute>
+    <dia:attribute name="wrap_after_char">
+        <dia:int val="40"/>
+    </dia:attribute>
+    <dia:attribute name="comment_line_length">
+        <dia:int val="17"/>
+    </dia:attribute>
+    <dia:attribute name="comment_tagging">
+        <dia:boolean val="false"/>
+    </dia:attribute>
+    <dia:attribute name="line_width">
+        <dia:real val="0.10000000000000001"/>
+    </dia:attribute>
+    <dia:attribute name="line_color">
+        <dia:color val="{{ lineColor }}"/>
+    </dia:attribute>
+    <dia:attribute name="fill_color">
+        <dia:color val="{{ fillColor }}"/>
+    </dia:attribute>
+    <dia:attribute name="text_color">
+        <dia:color val="{{ textColor }}"/>
+    </dia:attribute>
+    <dia:attribute name="normal_font">
+        <dia:font family="monospace" style="0" name="Courier"/>
+    </dia:attribute>
+    <dia:attribute name="abstract_font">
+        <dia:font family="monospace" style="88" name="Courier-BoldOblique"/>
+    </dia:attribute>
+    <dia:attribute name="polymorphic_font">
+        <dia:font family="monospace" style="8" name="Courier-Oblique"/>
+    </dia:attribute>
+    <dia:attribute name="classname_font">
+        <dia:font family="sans" style="80" name="Helvetica-Bold"/>
+    </dia:attribute>
+    <dia:attribute name="abstract_classname_font">
+        <dia:font family="sans" style="88" name="Helvetica-BoldOblique"/>
+    </dia:attribute>
+    <dia:attribute name="comment_font">
+        <dia:font family="sans" style="8" name="Helvetica-Oblique"/>
+    </dia:attribute>
+    <dia:attribute name="normal_font_height">
+        <dia:real val="0.80000000000000004"/>
+    </dia:attribute>
+    <dia:attribute name="polymorphic_font_height">
+        <dia:real val="0.80000000000000004"/>
+    </dia:attribute>
+    <dia:attribute name="abstract_font_height">
+        <dia:real val="0.80000000000000004"/>
+    </dia:attribute>
+    <dia:attribute name="classname_font_height">
+        <dia:real val="1"/>
+    </dia:attribute>
+    <dia:attribute name="abstract_classname_font_height">
+        <dia:real val="1"/>
+    </dia:attribute>
+    <dia:attribute name="comment_font_height">
+        <dia:real val="0.69999999999999996"/>
+    </dia:attribute>
+    <dia:attribute name="attributes">
+    {% for attribute in attributes %}
+    {{ attribute.render() }}
+    {% endfor %}
+</dia:attribute>
+    <dia:attribute name="operations">
+    {% for operation in operations %}
+    {{ operation.render() }}
+    {% endfor %}
+</dia:attribute>
+    <dia:attribute name="template">
+        <dia:boolean val="false"/>
+    </dia:attribute>
+    <dia:attribute name="templates"/>
+</dia:object>

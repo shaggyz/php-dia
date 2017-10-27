@@ -1,0 +1,8 @@
+language: php
+
+php:
+  - 7.1
+
+script:
+  - composer install --prefer-source --no-interaction
+  - phpunit

@@ -1,4 +1,8 @@
-test/
 .DS_Store
+.idea
 out.dia
-hiphop/
+old
+/diagrams/
+/vendor/
+test.dia
+build/*

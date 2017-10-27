@@ -1,0 +1,23 @@
+<dia:composite type="umlattribute">
+    <dia:attribute name="name">
+        <dia:string>#{{ name }}#</dia:string>
+    </dia:attribute>
+    <dia:attribute name="type">
+        <dia:string>#{{ type }}#</dia:string>
+    </dia:attribute>
+    <dia:attribute name="value">
+        <dia:string>#{{ value }}#</dia:string>
+    </dia:attribute>
+    <dia:attribute name="comment">
+        <dia:string>#{{ comment }}#</dia:string>
+    </dia:attribute>
+    <dia:attribute name="visibility">
+        <dia:enum val="{{ visibility }}"/>
+    </dia:attribute>
+    <dia:attribute name="abstract">
+        <dia:boolean val="{{ abstract }}"/>
+    </dia:attribute>
+    <dia:attribute name="class_scope">
+        <dia:boolean val="{{ classScope }}"/>
+    </dia:attribute>
+</dia:composite>

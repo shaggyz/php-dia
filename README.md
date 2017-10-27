@@ -1,25 +1,22 @@
-php-dia
-=======
+# PHP-Dia [![Build Status](https://travis-ci.org/shaggyz/php-dia.svg?branch=0.2.x)](https://travis-ci.org/shaggyz/php-dia)
 
-Description:
-------------
+Simple PHP Application used to parse php source code files and generate GNU-Dia class diagram files.
 
-Simple application written in php that generates UML diagrams (for GNU Dia software) from php source code.
+## Requirements
 
-Requirements:
--------------
++ php 7.1.x (It will run with 7.x in the future)
 
-- php 5.x
-- Dia (tested on Dia 0.97.2 under debian linux squeeze and OSX 1.7.3)
+## Installation 
 
-Usage:
-------
+```
+    make
+    sudo make install
+```
 
-<code>chmod +x php-dia</code>
+## Testing
 
-<code>./php-dia source-code-dir [output file name]</code>
+```make test```
 
-Example test:
--------------
+## Usage: 
 
-<code>./php-dia lib/</code>
+```phpdia --help```
