@@ -2,6 +2,9 @@
 
 namespace PhpDia\Application;
 
+use PhpDia\Application\Event\DebugEvent;
+use PhpDia\Application\Event\FileParsedEvent;
+use PhpDia\Application\Event\TotalFilesAcquiredEvent;
 use PhpDia\Application\Exception\EmptyFileListException;
 use PhpDia\Application\Exception\MissingSourceFileException;
 use PhpDia\Dia\File;
@@ -19,6 +22,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use League\Event\Emitter;
 
 class Generator
 {
@@ -40,11 +44,15 @@ class Generator
     /** @var bool */
     protected $compress = true;
 
-    public function __construct(string $sourcePath)
+    /** @var Emitter */
+    protected $emitter;
+
+    public function __construct(string $sourcePath, Emitter $emitter)
     {
         $this->parser = new Parser();
         $this->file = new File();
         $this->sourcePath = $sourcePath;
+        $this->emitter = $emitter;
     }
 
     /**
@@ -63,6 +71,10 @@ class Generator
     {
         $files = $this->getFileList();
 
+        $this->emitter->emit(
+            TotalFilesAcquiredEvent::create(count($files), $this->sourcePath)
+        );
+
         if (!count($files)) {
             throw new EmptyFileListException(
                 sprintf("No php files found in '%s'", $this->sourcePath)
@@ -75,8 +87,9 @@ class Generator
 
         foreach ($files as $file) {
             $this->parser->parse($file);
-            $elements = $this->processAst($this->parser->getAst());
+            $elements = $this->processAst($this->parser->getAst(), $file);
             $layer->addElements($elements);
+            $this->emitter->emit(FileParsedEvent::create($file));
         }
 
         $document->addDiagram($diagram);
@@ -89,9 +102,10 @@ class Generator
 
     /**
      * @param array $ast
+     * @param string $file
      * @return array
      */
-    private function processAst(array $ast) : array
+    private function processAst(array $ast, string $file) : array
     {
         $elements = [];
 
@@ -111,7 +125,9 @@ class Generator
                         continue;
                         break;
                     default:
-                        echo "Error: unknown type: " . get_class($stmt) . "\n";
+                        $this->emitter->emit(
+                            DebugEvent::create("Unknown type top-level file " . $file)
+                        );
                         break;
                 }
             }
@@ -143,7 +159,9 @@ class Generator
                     $classElement->addAttribute($this->processProperty($classStmt));
                     break;
                 default:
-                    echo "Error: unknown class smt type: " . get_class($classStmt) . "\n";
+                    $this->emitter->emit(
+                        DebugEvent::create("Unknown type in class " . $classElement->getName())
+                    );
                     break;
             }
         }
@@ -199,7 +217,7 @@ class Generator
    /**
     * @return array
     */
-    protected function getFileList() : array
+    public function getFileList() : array
     {
         if (!file_exists($this->sourcePath)) {
             throw new MissingSourceFileException(
