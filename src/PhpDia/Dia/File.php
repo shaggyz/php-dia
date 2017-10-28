@@ -9,22 +9,7 @@ class File
     /**
      * @var string
      */
-    protected $extension;
-
-    /**
-     * @var string
-     */
     private $contents;
-
-    /**
-     * @param string $fileName
-     * @param string $extension
-     */
-    public function __construct(string $fileName, string $extension = 'dia')
-    {
-        $this->fileName = $fileName;
-        $this->extension = $extension;
-    }
 
     /**
      * @param Document $document
@@ -48,23 +33,11 @@ class File
             $contents = $this->compress($contents);
         }
 
-        if (file_put_contents($this->getFileName($filePath), $contents)) {
+        if (file_put_contents($filePath, $contents)) {
             return true;
         }
 
         return false;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFileName(string $path = "") : string
-    {
-        if (!empty($path) && $path[strlen($path) - 1] !== DIRECTORY_SEPARATOR) {
-            $path = $path . DIRECTORY_SEPARATOR;
-        }
-
-        return $path . $this->fileName . "." . $this->extension;
     }
 
     /**

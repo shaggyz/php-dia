@@ -3,4 +3,12 @@
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-\PhpDia\Application\PhpDia::bootstrap($argv);
+use Symfony\Component\Console\Application;
+use PhpDia\Application\PhpDiaCommand;
+
+$application = new Application(PhpDiaCommand::NAME, PhpDiaCommand::VERSION);
+
+$application->add(new PhpDiaCommand());
+$application->setDefaultCommand(PhpDiaCommand::NAME, true);
+
+$application->run();

@@ -40,10 +40,10 @@ class Generator
     /** @var bool */
     protected $compress = true;
 
-    public function __construct(string $fileName, string $sourcePath)
+    public function __construct(string $sourcePath)
     {
         $this->parser = new Parser();
-        $this->file = new File($fileName);
+        $this->file = new File();
         $this->sourcePath = $sourcePath;
     }
 
@@ -57,8 +57,9 @@ class Generator
 
     /**
      * @throws EmptyFileListException
+     * @return File
      */
-    public function generate()
+    public function generate() : File
     {
         $files = $this->getFileList();
 
@@ -83,7 +84,7 @@ class Generator
         $document->applyLayout(MosaicLayout::LAYOUT_TYPE);
 
         $this->file->setDocument($document);
-        $this->file->save(__DIR__ . "/../../../", $this->compress);
+        return $this->file;
     }
 
     /**
