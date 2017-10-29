@@ -10,8 +10,7 @@ class FileTest extends TestCase
 {
     public function testFileCreation()
     {
-        $diaFile = new File('example');
-        $this->assertEquals('example.dia', $diaFile->getFileName());
+        $diaFile = new File();
 
         $documentProphecy = $this->prophesize(Document::class);
         $documentProphecy->render()->willReturn('document');
@@ -21,7 +20,7 @@ class FileTest extends TestCase
 
         $diaFile->setDocument($document);
 
-        $this->assertTrue($diaFile->save('/tmp'));
+        $this->assertTrue($diaFile->save('/tmp/example.dia'));
         $this->assertFileExists('/tmp/example.dia');
     }
 }
