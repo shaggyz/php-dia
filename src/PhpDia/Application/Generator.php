@@ -2,6 +2,9 @@
 
 namespace PhpDia\Application;
 
+use PhpDia\Application\Event\DebugEvent;
+use PhpDia\Application\Event\FileParsedEvent;
+use PhpDia\Application\Event\TotalFilesAcquiredEvent;
 use PhpDia\Application\Exception\EmptyFileListException;
 use PhpDia\Application\Exception\MissingSourceFileException;
 use PhpDia\Dia\File;
@@ -15,10 +18,12 @@ use PhpDia\Dia\Xml\Layer;
 use PhpDia\Dia\Xml\Operation;
 use PhpDia\Dia\Xml\Parameter;
 use PhpDia\Parser\Parser;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use League\Event\Emitter;
 
 class Generator
 {
@@ -40,11 +45,15 @@ class Generator
     /** @var bool */
     protected $compress = true;
 
-    public function __construct(string $fileName, string $sourcePath)
+    /** @var Emitter */
+    protected $emitter;
+
+    public function __construct(string $sourcePath, Emitter $emitter)
     {
         $this->parser = new Parser();
-        $this->file = new File($fileName);
+        $this->file = new File();
         $this->sourcePath = $sourcePath;
+        $this->emitter = $emitter;
     }
 
     /**
@@ -57,10 +66,15 @@ class Generator
 
     /**
      * @throws EmptyFileListException
+     * @return File
      */
-    public function generate()
+    public function generate() : File
     {
         $files = $this->getFileList();
+
+        $this->emitter->emit(
+            TotalFilesAcquiredEvent::create(count($files), $this->sourcePath)
+        );
 
         if (!count($files)) {
             throw new EmptyFileListException(
@@ -74,8 +88,9 @@ class Generator
 
         foreach ($files as $file) {
             $this->parser->parse($file);
-            $elements = $this->processAst($this->parser->getAst());
+            $elements = $this->processAst($this->parser->getAst(), $file);
             $layer->addElements($elements);
+            $this->emitter->emit(FileParsedEvent::create($file));
         }
 
         $document->addDiagram($diagram);
@@ -83,14 +98,15 @@ class Generator
         $document->applyLayout(MosaicLayout::LAYOUT_TYPE);
 
         $this->file->setDocument($document);
-        $this->file->save(__DIR__ . "/../../../", $this->compress);
+        return $this->file;
     }
 
     /**
      * @param array $ast
+     * @param string $file
      * @return array
      */
-    private function processAst(array $ast) : array
+    private function processAst(array $ast, string $file) : array
     {
         $elements = [];
 
@@ -99,7 +115,8 @@ class Generator
                 continue;
             }
             foreach ($meta->stmts as $stmt) {
-                switch (get_class($stmt)) {
+                $type = get_class($stmt);
+                switch ($type) {
                     case "PhpParser\Node\Stmt\Class_":
                         $elements[] = $this->processElement($stmt);
                         break;
@@ -110,7 +127,11 @@ class Generator
                         continue;
                         break;
                     default:
-                        echo "Error: unknown type: " . get_class($stmt) . "\n";
+                        $this->emitter->emit(
+                            DebugEvent::create(
+                                sprintf("Unknown type '%s' in file %s.", $type, $file)
+                            )
+                        );
                         break;
                 }
             }
@@ -129,7 +150,8 @@ class Generator
         $classElement = ClassElement::create($node->name->name, $this->objectIdentifier);
 
         foreach ($node->stmts as $classStmt) {
-            switch (get_class($classStmt)) {
+            $type = get_class($classStmt);
+            switch ($type) {
                 case "PhpParser\Node\Stmt\ClassMethod":
                     /** @var ClassMethod $classStmt */
                     $classElement->addOperation($this->processMethod($classStmt));
@@ -142,7 +164,11 @@ class Generator
                     $classElement->addAttribute($this->processProperty($classStmt));
                     break;
                 default:
-                    echo "Error: unknown class smt type: " . get_class($classStmt) . "\n";
+                    $this->emitter->emit(
+                        DebugEvent::create(
+                            sprintf("Unknown type '%s' in class %s.", $type, $classElement->getName())
+                        )
+                    );
                     break;
             }
         }
@@ -186,6 +212,8 @@ class Generator
         $propertyName = $property->props[0]->name->name;
         $attribute = Attribute::create($propertyName, 'mixed');
 
+        $attribute->setType($this->processPropertyType($property));
+
         if ($property->isProtected()) {
             $attribute->setVisibility(Attribute::VISIBILITY_PROTECTED);
         } elseif ($property->isPrivate()) {
@@ -195,10 +223,33 @@ class Generator
         return $attribute;
     }
 
+    /**
+     * @param Property $property
+     * @return string
+     */
+    protected function processPropertyType(Property $property) : string
+    {
+        if ($property->hasAttribute('comments')) {
+            $comments = $property->getAttribute('comments');
+
+            foreach ($comments as $comment) {
+                /** @var Doc $comment */
+                $comment->getText();
+                $matches = [];
+                if (preg_match('/@var\s(.+)\s/', $comment->getText(), $matches)) {
+                    return trim($matches[1]);
+                }
+            }
+
+        }
+
+        return 'mixed';
+    }
+
    /**
     * @return array
     */
-    protected function getFileList() : array
+    public function getFileList() : array
     {
         if (!file_exists($this->sourcePath)) {
             throw new MissingSourceFileException(

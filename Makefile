@@ -10,7 +10,10 @@ test:
 	@vendor/bin/phpunit src/
 
 install:
-	cp build/phpdia.phar ${INSTALL_DIR}/phpdia
+	cp build/phpdia.phar ${INSTALL_DIR}
+	echo "#!/usr/bin/env bash\nphp -d phar.readonly=0 ${INSTALL_DIR}/phpdia.phar \$$1" > ${INSTALL_DIR}/phpdia
+	chmod +x ${INSTALL_DIR}/phpdia
 
 uninstall:
 	rm ${INSTALL_DIR}/phpdia
+	rm ${INSTALL_DIR}/phpdia.phar
