@@ -114,7 +114,8 @@ class Generator
                 continue;
             }
             foreach ($meta->stmts as $stmt) {
-                switch (get_class($stmt)) {
+                $type = get_class($stmt);
+                switch ($type) {
                     case "PhpParser\Node\Stmt\Class_":
                         $elements[] = $this->processElement($stmt);
                         break;
@@ -126,7 +127,9 @@ class Generator
                         break;
                     default:
                         $this->emitter->emit(
-                            DebugEvent::create("Unknown type top-level file " . $file)
+                            DebugEvent::create(
+                                sprintf("Unknown type '%s' in file %s.", $type, $file)
+                            )
                         );
                         break;
                 }
@@ -146,7 +149,8 @@ class Generator
         $classElement = ClassElement::create($node->name->name, $this->objectIdentifier);
 
         foreach ($node->stmts as $classStmt) {
-            switch (get_class($classStmt)) {
+            $type = get_class($classStmt);
+            switch ($type) {
                 case "PhpParser\Node\Stmt\ClassMethod":
                     /** @var ClassMethod $classStmt */
                     $classElement->addOperation($this->processMethod($classStmt));
@@ -160,7 +164,9 @@ class Generator
                     break;
                 default:
                     $this->emitter->emit(
-                        DebugEvent::create("Unknown type in class " . $classElement->getName())
+                        DebugEvent::create(
+                            sprintf("Unknown type '%s' in class %s.", $type, $classElement->getName())
+                        )
                     );
                     break;
             }

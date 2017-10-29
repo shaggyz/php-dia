@@ -29,12 +29,14 @@ class PhpDiaCommand extends Command
         $this->setName(static::NAME)
             ->setHelp("Creates GNU/Dia UML diagrams from PHP source code.");
 
+        // Args
         $this->addArgument(
             'source',
             InputArgument::REQUIRED,
             "The directory containing the PHP source code."
         );
 
+        // Options
         $this->addOption(
             'exclude',
             'e',
@@ -50,26 +52,26 @@ class PhpDiaCommand extends Command
             $this->getDefaultOutputFile()
         );
 
+        // Flags
         $this->addOption(
             'confirm',
             'c',
-            InputOption::VALUE_OPTIONAL,
+            InputOption::VALUE_NONE,
             "Confirm the file list before parse."
         );
 
         $this->addOption(
             'raw',
             'r',
-            InputOption::VALUE_OPTIONAL,
+            InputOption::VALUE_NONE,
             "Disable file compression"
         );
 
         $this->addOption(
             'debug',
             'd',
-            InputOption::VALUE_OPTIONAL,
-            "Enable debug output.",
-            false
+            InputOption::VALUE_NONE,
+            "Enable debug output."
         );
     }
 
@@ -122,7 +124,7 @@ class PhpDiaCommand extends Command
                     $event->getPath(),
                     PHP_EOL
                 ));
-                if ($input->hasParameterOption('--debug')) {
+                if (!$input->getOption('debug')) {
                     $this->startProgress($event, $output);
                 }
             }
@@ -142,7 +144,7 @@ class PhpDiaCommand extends Command
 
         $emitter->addListener('DebugEvent',
             function (DebugEvent $event) use ($input, $output) {
-                if ($input->hasParameterOption('--debug')) {
+                if ($input->getOption('debug')) {
                     $output->writeln("DEBUG: " . $event->getMessage());
                 }
             }
@@ -160,7 +162,7 @@ class PhpDiaCommand extends Command
     {
         $generator = new Generator($input->getArgument('source'), $emitter);
 
-        if ($input->hasParameterOption('--confirm') &&
+        if ($input->getOption('confirm') &&
             !$this->confirmFileList($input, $output, $generator->getFileList())) {
             $output->writeln("Aborted by user.");
             exit(130);
@@ -170,7 +172,7 @@ class PhpDiaCommand extends Command
             $generator->setExcluded(explode(',', $input->getOption('exclude')));
         }
 
-        if ($input->hasParameterOption('--raw')) {
+        if ($input->getOption('raw')) {
             $generator->setCompress(false);
         }
 
