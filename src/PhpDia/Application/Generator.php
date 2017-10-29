@@ -18,6 +18,7 @@ use PhpDia\Dia\Xml\Layer;
 use PhpDia\Dia\Xml\Operation;
 use PhpDia\Dia\Xml\Parameter;
 use PhpDia\Parser\Parser;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -211,6 +212,8 @@ class Generator
         $propertyName = $property->props[0]->name->name;
         $attribute = Attribute::create($propertyName, 'mixed');
 
+        $attribute->setType($this->processPropertyType($property));
+
         if ($property->isProtected()) {
             $attribute->setVisibility(Attribute::VISIBILITY_PROTECTED);
         } elseif ($property->isPrivate()) {
@@ -218,6 +221,29 @@ class Generator
         }
 
         return $attribute;
+    }
+
+    /**
+     * @param Property $property
+     * @return string
+     */
+    protected function processPropertyType(Property $property) : string
+    {
+        if ($property->hasAttribute('comments')) {
+            $comments = $property->getAttribute('comments');
+
+            foreach ($comments as $comment) {
+                /** @var Doc $comment */
+                $comment->getText();
+                $matches = [];
+                if (preg_match('/@var\s(.+)\s/', $comment->getText(), $matches)) {
+                    return trim($matches[1]);
+                }
+            }
+
+        }
+
+        return 'mixed';
     }
 
    /**
