@@ -36,7 +36,7 @@ Arguments:
 
 Options:
   -e, --exclude[=EXCLUDE]  Comma separated list of dir/files to exclude.
-  -o, --output[=OUTPUT]    Output path for diagram file. [default: "/mnt/development/Development/php/hb-website/src/app/Models/diagram.dia"]
+  -o, --output[=OUTPUT]    Output path for diagram file. [default: "./diagram.dia"]
   -c, --confirm            Confirm the file list before parse.
   -r, --raw                Disable file compression
   -d, --debug              Enable debug output.
